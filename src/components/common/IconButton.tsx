@@ -4,7 +4,7 @@ import { ReactComponent as Search } from '@assets/images/icon_search.svg';
 import { ReactComponent as Xcircle } from '@assets/images/icon_xCircle.svg';
 import { Button } from './IconButton.style';
 
-type IconProps = {
+type Props = {
   icon: string;
 };
 
@@ -14,7 +14,7 @@ const icons: { [key: string]: FunctionComponent } = {
   xCircle: Xcircle
 };
 
-export default function IconButton({ icon }: IconProps) {
+export default function IconButton({ icon }: Props) {
   const Icon = icons[icon];
 
   return (

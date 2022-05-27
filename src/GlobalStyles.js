@@ -119,6 +119,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     width: 100%;
     color: #010101;
+    font: inherit;
     letter-spacing: -0.4px;
   }
 
