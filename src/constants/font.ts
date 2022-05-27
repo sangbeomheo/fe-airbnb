@@ -1,11 +1,11 @@
 const FONT = {
   SIZE: {
-    X_SMALL: '1.2rem', // 12px
-    SMALL: '1.4rem', // 14px
-    BASE: '1.6rem', // 16px
-    MEDIUM: '1.8rem', // 18px
-    LARGE: '2rem', // 20px
-    TITLE_1: '3.2rem' // 32px
+    X_SMALL: '1.2rem',
+    SMALL: '1.4rem',
+    BASE: '1.6rem',
+    MEDIUM: '1.8rem',
+    LARGE: '2rem',
+    TITLE_1: '3.2rem'
   },
   WEIGHT: {
     REGULAR: 400,

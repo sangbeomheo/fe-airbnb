@@ -120,6 +120,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
     color: #010101;
     letter-spacing: -0.4px;
+    font-size:1.6rem
   }
 
   ol,
