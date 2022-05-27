@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import COLOR from '@/constants/color';
+import { COLOR } from '@/constants';
 
 const Container = styled.nav`
   display: flex;

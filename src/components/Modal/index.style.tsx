@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import FONT from '@/constants/font';
-import COLOR from '@/constants/color';
+import { COLOR, FONT } from '@/constants';
 
 const Container = styled.div`
   position: absolute;

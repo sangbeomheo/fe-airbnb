@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Label } from './index.style';
+import { Label } from '@components/Modal/index.style';
 
 const Title = styled(Label)`
   margin: -12px 0 16px;
