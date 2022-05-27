@@ -8,7 +8,8 @@ const COLOR = {
     500: '#E0E0E0',
     600: '#F5F5F7'
   },
-  WHITE: '#fff'
+  WHITE: '#fff',
+  PRIMARY: '#E84C60'
 };
 
 export default COLOR;
