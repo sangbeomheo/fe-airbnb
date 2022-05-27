@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Description } from '@/components/Modal/index.style';
-import COLOR from '@/constants/color';
+import { Description } from '@components/Modal/index.style';
+import COLOR from '@constants/color';
 import Modal from '@components/Modal';
-import { accommodations } from '@/mockData/accommodations';
-import { Title, PriceGraph } from '@/components/Modal/PriceModal.style';
+import { accommodations } from '@mockData/accommodations';
+import { Title, PriceGraph } from '@components/Modal/PriceModal.style';
 
 const STICK_LENGTH = 30;
 const MAX_PRICE_RANGE = 100000;
@@ -26,11 +26,11 @@ const getPricePerStick = () => {
 };
 
 const getAccommodationLengthPerStick = () => {
-  const [min] = getMinMaxPrice();
+  const [minPrice] = getMinMaxPrice();
   const pricePerStick = getPricePerStick();
   const accommodationLengthPerStick = new Array(STICK_LENGTH).fill(0);
   accommodations.forEach(({ price }) => {
-    let stickIndex = parseInt((price - min) / pricePerStick, 10);
+    let stickIndex = parseInt((price - minPrice) / pricePerStick, 10);
     if (stickIndex >= STICK_LENGTH) stickIndex = STICK_LENGTH - 1;
     accommodationLengthPerStick[stickIndex] += 1;
   });

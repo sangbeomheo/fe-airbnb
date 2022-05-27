@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Container } from '@/components/Modal/index.style';
+import { Container } from '@components/Modal/index.style';
 
 type Props = {
   children: FunctionComponent;
