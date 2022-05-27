@@ -113,7 +113,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   html {
-    font: 400 16px/1.4 'Noto Sans KR', sans-serif;
+    font: 400 62.5%/1.4 'Noto Sans KR', sans-serif;
   }
 
   body {
