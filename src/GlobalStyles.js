@@ -113,13 +113,15 @@ const GlobalStyles = createGlobalStyle`
   }
 
   html {
-    font: 400 16px/1.4 'Noto Sans KR', sans-serif;
+    font: 400 62.5%/1.4 'Noto Sans KR', sans-serif;
   }
 
   body {
     width: 100%;
     color: #010101;
+    font: inherit;
     letter-spacing: -0.4px;
+    font-size:1.6rem
   }
 
   ol,

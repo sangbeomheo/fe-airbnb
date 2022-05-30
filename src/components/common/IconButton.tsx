@@ -1,16 +1,20 @@
 import React, { FunctionComponent } from 'react';
 import { ReactComponent as Menu } from '@assets/images/icon_menu.svg';
-import { Button } from './IconButton.style';
+import { ReactComponent as Search } from '@assets/images/icon_search.svg';
+import { ReactComponent as Xcircle } from '@assets/images/icon_xCircle.svg';
+import { Button } from '@components/common/IconButton.style';
 
-type IconProps = {
+type Props = {
   icon: string;
 };
 
 const icons: { [key: string]: FunctionComponent } = {
-  menu: Menu
+  menu: Menu,
+  search: Search,
+  xCircle: Xcircle
 };
 
-export default function IconButton({ icon }: IconProps) {
+export default function IconButton({ icon }: Props) {
   const Icon = icons[icon];
 
   return (
