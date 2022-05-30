@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Description } from '@components/Modal/index.style';
 import COLOR from '@constants/color';
-import Modal from '@components/Modal';
+import Portal from '@components/Modal';
 import { accommodations } from '@mockData/accommodations';
 import { Title, PriceGraph } from '@components/Modal/PriceModal.style';
 
@@ -48,7 +48,7 @@ const getHeightOfSticks = () => {
   return heightOfSticks;
 };
 
-export default function PriceModal() {
+function PriceModal() {
   const canvasRef = useRef(null);
   const drawStickChartAboutPrice = () => {
     const canvas = canvasRef.current;
@@ -71,7 +71,7 @@ export default function PriceModal() {
   useEffect(drawStickChartAboutPrice, []);
 
   return (
-    <Modal>
+    <Portal>
       <Title>가격 범위</Title>
       <div>
         ₩<span>100,000</span> - ₩<span>1,000,000</span>+
@@ -80,6 +80,8 @@ export default function PriceModal() {
         평균 1박 요금은 <span>₩</span>입니다.
       </Description>
       <PriceGraph ref={canvasRef} />
-    </Modal>
+    </Portal>
   );
 }
+
+export default PriceModal;

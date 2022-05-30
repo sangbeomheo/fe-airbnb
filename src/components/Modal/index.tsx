@@ -1,10 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Container } from '@components/Modal/index.style';
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
 }
 
-export default function Modal({ children }: Props) {
-  return <Container>{children}</Container>;
+function Portal({ children }: Props) {
+  const container = document.querySelector('#portal');
+  return ReactDOM.createPortal(<Container>{children}</Container>, container);
 }
+
+export default Portal;
