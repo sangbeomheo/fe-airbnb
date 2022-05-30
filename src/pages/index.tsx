@@ -1,13 +1,13 @@
 import React from 'react';
-import Header from '@/components/Header';
-import PriceModal from '@/components/Modal/PriceModal';
+import Layout from '@/layout';
+import Header from '@components/Header';
+import Hero from '@components/Hero';
 
 function Home() {
   return (
-    <div>
-      <Header />
-      <PriceModal />
-    </div>
+    <Layout header={<Header />}>
+      <Hero />
+    </Layout>
   );
 }
 
