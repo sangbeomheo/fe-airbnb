@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Container } from '@components/Modal/index.style';
 
-type Props = {
-  children: FunctionComponent;
-};
+interface Props {
+  children: JSX.Element[] | JSX.Element;
+}
 
 export default function Modal({ children }: Props) {
   return <Container>{children}</Container>;
