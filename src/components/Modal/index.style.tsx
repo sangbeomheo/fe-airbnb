@@ -3,8 +3,9 @@ import { COLOR, FONT } from '@/constants';
 
 const Container = styled.div`
   position: absolute;
-  top: 16px;
-  right: 0;
+  top: 216px;
+  left: 50%;
+  margin-left: -8px;
   padding: 64px;
   background: ${COLOR.WHITE};
   border-radius: 40px;
