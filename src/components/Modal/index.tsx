@@ -8,7 +8,7 @@ interface Props {
 
 function Portal({ children }: Props) {
   const container = document.querySelector('#portal');
-  return ReactDOM.createPortal(<Container>{children}</Container>, container);
+  return container ? ReactDOM.createPortal(<Container>{children}</Container>, container) : null;
 }
 
 export default Portal;

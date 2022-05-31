@@ -21,7 +21,7 @@ const getMinMaxPrice = () => {
 
 const getPricePerStick = () => {
   const [minPrice, maxPrice] = getMinMaxPrice();
-  const pricePerStick = parseInt((maxPrice - minPrice) / STICK_LENGTH, 10);
+  const pricePerStick = parseInt(`${(maxPrice - minPrice) / STICK_LENGTH}`, 10);
   return pricePerStick;
 };
 
@@ -30,7 +30,7 @@ const getAccommodationLengthPerStick = () => {
   const pricePerStick = getPricePerStick();
   const accommodationLengthPerStick = new Array(STICK_LENGTH).fill(0);
   accommodations.forEach(({ price }) => {
-    let stickIndex = parseInt((price - minPrice) / pricePerStick, 10);
+    let stickIndex = parseInt(`${(price - minPrice) / pricePerStick}`, 10);
     if (stickIndex >= STICK_LENGTH) stickIndex = STICK_LENGTH - 1;
     accommodationLengthPerStick[stickIndex] += 1;
   });
@@ -49,15 +49,16 @@ const getHeightOfSticks = () => {
 };
 
 function PriceModal() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawStickChartAboutPrice = () => {
     const canvas = canvasRef.current;
-    if (!canvas.getContext) throw new Error('canvas를 지원하지 않습니다.');
+    if (!canvas?.getContext) throw new Error('canvas를 지원하지 않습니다.');
 
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
 
     const context = canvas.getContext('2d');
+    if (!context) return;
     context.strokeStyle = COLOR.BLACK;
 
     const initialValue = { x: 0, width: CANVAS_WIDTH / STICK_LENGTH - 1 };
