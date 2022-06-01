@@ -3,19 +3,23 @@ import { MILLISECOND_FOR_ONE_DAY } from '@constants/date';
 
 import accommodations from './accommodations';
 
-const getDataToPeriod = (checkin: string, checkout: string) => {
+const getDataForPeriod = (checkin: string, checkout: string) => {
   const [, , checkinDay] = checkin.split('-').map(Number);
   const checkinToTime = new Date(checkin).getTime();
   const checkoutToTime = new Date(checkout).getTime();
   const period = (checkoutToTime - checkinToTime) / MILLISECOND_FOR_ONE_DAY;
-  const dataToPeriod = [];
+  const dataForPeriod = accommodations.map(accommodation => {
+    const priceForPeriod = [];
 
-  for (let count = checkinDay - 1; count < period; count += 1) {
-    const idx = count % accommodations.length;
-    dataToPeriod.push(accommodations[idx]);
-  }
+    for (let count = checkinDay - 1; count < period; count += 1) {
+      const idx = count % accommodations.length;
+      priceForPeriod.push(accommodation.price[idx]);
+    }
 
-  return dataToPeriod;
+    return { ...accommodation, price: priceForPeriod };
+  });
+
+  return dataForPeriod;
 };
 
 export const handlers = [
@@ -23,8 +27,8 @@ export const handlers = [
     const checkin = req.url.searchParams.get('checkin');
     const checkout = req.url.searchParams.get('checkout');
     if (checkin && checkout) {
-      const dataToPeriod = getDataToPeriod(checkin, checkout);
-      return res(ctx.status(200), ctx.json(dataToPeriod));
+      const dataForPeriod = getDataForPeriod(checkin, checkout);
+      return res(ctx.status(200), ctx.json(dataForPeriod));
     }
     return res(ctx.status(200), ctx.json(accommodations));
   })
