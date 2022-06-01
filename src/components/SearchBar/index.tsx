@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, VerticalLine, SearchBtnWrap } from '@components/SearchBar/index.style';
 import IconButton from '@components/common/IconButton';
-import SearchInputButton from '@/components/SearchBar/SearchInputButton';
-import PriceModal from '../Modal/PriceModal';
+import SearchInputButton from '@components/SearchBar/SearchInputButton';
+import PriceModal from '@components/Modal/PriceModal';
 
 function SearchBar() {
   const [period, setPeriod] = useState(null); // [date1, date2]
