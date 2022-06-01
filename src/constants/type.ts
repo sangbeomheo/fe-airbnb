@@ -10,4 +10,11 @@ interface ReservationInfo {
   };
 }
 
-export type { ReservationInfo };
+type AccommodationData = Array<{
+  id: number;
+  name: string;
+  price: number[];
+  latitude: number;
+}>;
+
+export type { ReservationInfo, AccommodationData };
