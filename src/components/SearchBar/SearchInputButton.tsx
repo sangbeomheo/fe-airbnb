@@ -7,6 +7,15 @@ import {
   PlaceHolder
 } from '@components/SearchBar/SearchInputButton.style';
 
+interface Props {
+  name: string;
+  label: string;
+  value?: string;
+  placeholder: string;
+  hasCloseBtn?: boolean;
+  handleClick?: () => void;
+}
+
 function SearchInputButton({
   name,
   label,
@@ -14,7 +23,7 @@ function SearchInputButton({
   placeholder,
   hasCloseBtn = true,
   handleClick
-}) {
+}: Props) {
   const [InputValue, setInputValue] = useState(value);
 
   return (

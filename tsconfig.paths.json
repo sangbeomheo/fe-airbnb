@@ -4,10 +4,13 @@
     "paths": {
       "@/*": ["src/*"],
       "@pages/*": ["src/pages/*"],
+      "@layout/*": ["src/layout/*"],
       "@components/*": ["src/components/*"],
-      "@constants/*": ["src/constants/*"],
       "@assets/*": ["src/assets/*"],
-      "@mockData/*": ["src/mockData/*"]
+      "@contexts/*": ["src/contexts/*"],
+      "@constants/*": ["src/constants/*"],
+      "@utils/*": ["src/utils/*"],
+      "@mocks/*": ["src/mocks/*"]
     }
   }
 }

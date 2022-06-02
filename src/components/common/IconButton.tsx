@@ -4,9 +4,9 @@ import { ReactComponent as Search } from '@assets/images/icon_search.svg';
 import { ReactComponent as Xcircle } from '@assets/images/icon_xCircle.svg';
 import { Button } from '@components/common/IconButton.style';
 
-type Props = {
+interface Props {
   icon: string;
-};
+}
 
 const icons: { [key: string]: FunctionComponent } = {
   menu: Menu,
