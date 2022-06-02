@@ -1,38 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import COLOR from '@constants/color';
 import Portal from '@components/Modal';
 import styled from 'styled-components';
-
 import Calendar from '@components/Calendar';
+import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
+import { TODAY } from '@/constants/date';
 
 function PeriodModal() {
-  const today = new Date();
+  const { reservationInfo } = useContext(ReservationInfoContext);
+  const checkinDate = new Date(reservationInfo.checkin);
 
-  const [pivotDate, setPivotDate] = useState(today);
+  const [currMonthDate, setCurrMonthDate] = useState(checkinDate);
+  const [currYear, currMonth] = [currMonthDate.getFullYear(), currMonthDate.getMonth()];
+  const nextMonthDate = new Date(currYear, currMonth + 1);
 
-  const goPrev = () => {
-    const todayYear = pivotDate.getFullYear();
-    const todayMonth = pivotDate.getMonth();
-    setPivotDate(new Date(todayYear, todayMonth - 1));
-  };
+  const flipCalendar = direction => {
+    if (direction === 'prev' && TODAY >= currMonthDate) return;
 
-  const goNext = () => {
-    const todayYear = pivotDate.getFullYear();
-    const todayMonth = pivotDate.getMonth();
-    setPivotDate(new Date(todayYear, todayMonth + 1));
+    const monthCounter = direction === 'prev' ? -1 : 1;
+    setCurrMonthDate(new Date(currYear, currMonth + monthCounter));
   };
 
   return (
     <Portal>
-      <button type="button" onClick={goPrev}>
+      <button type="button" onClick={() => flipCalendar('prev')}>
         {'<'}
       </button>
-      <button type="button" onClick={goNext}>
+      <button type="button" onClick={() => flipCalendar('next')}>
         {'>'}
       </button>
       <Container>
-        <Calendar date={pivotDate} />
-        <Calendar date={new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1)} />
+        <Calendar date={currMonthDate} />
+        <Calendar date={nextMonthDate} />
       </Container>
     </Portal>
   );
