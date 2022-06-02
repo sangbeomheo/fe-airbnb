@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import COLOR from '@constants/color';
 import Portal from '@components/Modal';
 import styled from 'styled-components';
 import Calendar from '@components/Calendar';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { TODAY } from '@/constants/date';
+import IconButton from '../common/IconButton';
 
 function PeriodModal() {
   const { reservationInfo } = useContext(ReservationInfoContext);
@@ -23,13 +23,11 @@ function PeriodModal() {
 
   return (
     <Portal>
-      <button type="button" onClick={() => flipCalendar('prev')}>
-        {'<'}
-      </button>
-      <button type="button" onClick={() => flipCalendar('next')}>
-        {'>'}
-      </button>
       <Container>
+        <ButtonWrap>
+          <IconButton icon="chevronLeft" handleClick={() => flipCalendar('prev')} />
+          <IconButton icon="chevronRight" handleClick={() => flipCalendar('next')} />
+        </ButtonWrap>
         <Calendar date={currMonthDate} />
         <Calendar date={nextMonthDate} />
       </Container>
@@ -38,9 +36,24 @@ function PeriodModal() {
 }
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 64px;
 `;
+const ButtonWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  max-width: 736px;
+  display: flex;
+  justify-content: space-between;
+  button {
+    height: 24px;
+    svg {
+      padding: 0;
+    }
+  }
+`;
+
 export default PeriodModal;

@@ -80,10 +80,3 @@ const DateTdInner = styled.div`
 `;
 
 export default DateUnit;
-
-// const stringFullDate = (date, getStringDate(date, '-'));
-// if (date < TODAY) return 'disabled';
-// if (stringFullDate === checkin) return 'checkin';
-// if (stringFullDate === checkout) return 'checkout';
-// if (stringFullDate > checkin && stringFullDate < checkout) return 'included';
-// return 'basic';
