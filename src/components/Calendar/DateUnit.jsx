@@ -14,12 +14,6 @@ function DateUnit({ date, state, handleClick }) {
 }
 
 const DateTdOuter = styled.td`
-  width: 48px;
-  height: 48px;
-  text-align: center;
-  line-height: 48px;
-  font-size: ${FONT.SIZE.X_SMALL};
-  font-weight: ${FONT.WEIGHT.MEDIUM};
   ${({ state }) => {
     if (state === 'basic' || state === 'disabled') return;
 
@@ -45,14 +39,29 @@ const DateTdOuter = styled.td`
   }};
 `;
 
-const DateTdInner = styled.span`
-  display: block;
+const DateTdInner = styled.div`
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  line-height: 46px;
+  font-size: ${FONT.SIZE.X_SMALL};
+  font-weight: ${FONT.WEIGHT.MEDIUM};
+  border: 1px solid transparent;
   ${({ state }) => {
-    if (state === 'basic' || state === 'included')
+    if (state === 'included') {
       return `
         cursor: pointer;
+      `;
+    }
+    if (state === 'basic') {
+      return `
+        border-radius: 48px;
+        cursor: pointer;
+        &:hover {
+          border: 1px solid ${COLOR.GREY[100]};
+        }
     `;
-
+    }
     if (state === 'disabled') {
       return `
         color:${COLOR.GREY[400]};
