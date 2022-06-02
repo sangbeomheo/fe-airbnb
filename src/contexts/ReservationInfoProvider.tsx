@@ -19,10 +19,10 @@ const initialReservationInfo = {
   checkout: getAfterAWeek(),
   minPrice: 10000,
   maxPrice: 150000,
-  personnel: {
+  persons: {
     adult: 2,
     child: 0,
-    preschooler: 0
+    infant: 0
   }
 };
 

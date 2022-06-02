@@ -3,10 +3,10 @@ interface ReservationInfo {
   checkout: string;
   minPrice: number;
   maxPrice: number;
-  personnel: {
+  persons: {
     adult: number;
     child: number;
-    preschooler: number;
+    infant: number;
   };
 }
 
