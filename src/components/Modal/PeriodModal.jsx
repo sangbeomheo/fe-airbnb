@@ -1,47 +1,62 @@
-import React, { useState } from 'react';
-import COLOR from '@constants/color';
+import React, { useState, useContext } from 'react';
 import Portal from '@components/Modal';
 import styled from 'styled-components';
-
 import Calendar from '@components/Calendar';
+import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
+import { TODAY, THIS_YEAR, THIS_MONTH } from '@/constants/date';
+import IconButton from '../common/IconButton';
 
 function PeriodModal() {
-  const today = new Date();
+  const { reservationInfo } = useContext(ReservationInfoContext);
 
-  const [pivotDate, setPivotDate] = useState(today);
+  const initialPivotMonthDate = reservationInfo.checkin
+    ? new Date(new Date(reservationInfo.checkin).setDate(1))
+    : new Date(THIS_YEAR, THIS_MONTH, 1);
 
-  const goPrev = () => {
-    const todayYear = pivotDate.getFullYear();
-    const todayMonth = pivotDate.getMonth();
-    setPivotDate(new Date(todayYear, todayMonth - 1));
-  };
+  const [pivotMonthDate, setPivotMonthDate] = useState(initialPivotMonthDate);
+  const [pivotYear, pivotMonth] = [pivotMonthDate.getFullYear(), pivotMonthDate.getMonth()];
+  const nextMonthDate = new Date(pivotYear, pivotMonth + 1);
 
-  const goNext = () => {
-    const todayYear = pivotDate.getFullYear();
-    const todayMonth = pivotDate.getMonth();
-    setPivotDate(new Date(todayYear, todayMonth + 1));
+  const flipCalendar = direction => {
+    if (direction === 'prev' && TODAY >= pivotMonthDate) return;
+
+    const monthCounter = direction === 'prev' ? -1 : 1;
+    setPivotMonthDate(new Date(pivotYear, pivotMonth + monthCounter));
   };
 
   return (
     <Portal>
-      <button type="button" onClick={goPrev}>
-        {'<'}
-      </button>
-      <button type="button" onClick={goNext}>
-        {'>'}
-      </button>
       <Container>
-        <Calendar date={pivotDate} />
-        <Calendar date={new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1)} />
+        <ButtonWrap>
+          <IconButton icon="chevronLeft" handleClick={() => flipCalendar('prev')} />
+          <IconButton icon="chevronRight" handleClick={() => flipCalendar('next')} />
+        </ButtonWrap>
+        <Calendar date={pivotMonthDate} />
+        <Calendar date={nextMonthDate} />
       </Container>
     </Portal>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 64px;
 `;
+const ButtonWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  max-width: 736px;
+  display: flex;
+  justify-content: space-between;
+  button {
+    height: 24px;
+    svg {
+      padding: 0;
+    }
+  }
+`;
+
 export default PeriodModal;
