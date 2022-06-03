@@ -25,4 +25,4 @@ const SearchBtnWrap = styled.div`
     padding: 0;
   }
 `;
-export { Container, VerticalLine, SearchBtnWrap };
+export { Container, SearchBtnWrap };
