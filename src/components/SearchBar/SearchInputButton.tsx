@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import IconButton from '@components/common/IconButton';
 import {
   Container,
@@ -12,8 +12,10 @@ interface Props {
   label: string;
   value?: string;
   placeholder: string;
+  searchName: string;
   hasCloseBtn?: boolean;
-  handleClick?: () => void;
+  hasBorderLeft?: boolean;
+  getSearchModal: (searchName: string) => void;
 }
 
 function SearchInputButton({
@@ -21,18 +23,18 @@ function SearchInputButton({
   label,
   value = '',
   placeholder,
+  searchName,
   hasCloseBtn = true,
-  handleClick
+  hasBorderLeft = true,
+  getSearchModal
 }: Props) {
-  const [InputValue, setInputValue] = useState(value);
-
   return (
-    <Container>
-      <InputButton type="button" name={name} onClick={handleClick}>
+    <Container hasBorderLeft={hasBorderLeft}>
+      <InputButton type="button" name={name} onClick={() => getSearchModal(searchName)}>
         <Label>{label}</Label>
-        <div>{InputValue || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
+        <div>{value || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
       </InputButton>
-      {hasCloseBtn && InputValue && <IconButton icon="xCircle" />}
+      {hasCloseBtn && value && <IconButton icon="xCircle" />}
     </Container>
   );
 }
