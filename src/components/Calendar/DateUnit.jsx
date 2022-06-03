@@ -1,45 +1,44 @@
+/* eslint-disable no-undef */
 /* eslint-disable consistent-return */
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { COLOR, FONT } from '@/constants';
 
 function DateUnit({ date, state, handleClick }) {
   return (
-    <DateTdOuter state={state}>
-      <DateTdInner state={state} onClick={handleClick}>
+    <TdBackground state={state}>
+      <Date state={state} onClick={handleClick}>
         {date}
-      </DateTdInner>
-    </DateTdOuter>
+      </Date>
+    </TdBackground>
   );
 }
 
-const DateTdOuter = styled.td`
+const TdBackground = styled.td`
   ${({ state }) => {
-    if (state === 'basic' || state === 'disabled') return;
-
-    if (state === 'included') {
-      return `
-        background:${COLOR.GREY[600]};
+    switch (state) {
+      case 'included':
+        return `
+        background: ${COLOR.GREY[600]};
       `;
-    }
-    if (state === 'checkin') {
-      return `
+      case 'checkin':
+        return `
         color: ${COLOR.WHITE};
         background: ${COLOR.GREY[600]};
         border-radius: 48px 0 0 48px;
       `;
-    }
-    if (state === 'checkout') {
-      return `
+      case 'checkout':
+        return `
         color: ${COLOR.WHITE};
         background: ${COLOR.GREY[600]};
         border-radius: 0 48px 48px 0;
       `;
+      default:
     }
-  }};
+  }}
 `;
 
-const DateTdInner = styled.div`
+const Date = styled.div`
   width: 48px;
   height: 48px;
   text-align: center;
@@ -48,33 +47,33 @@ const DateTdInner = styled.div`
   font-weight: ${FONT.WEIGHT.MEDIUM};
   border: 1px solid transparent;
   ${({ state }) => {
-    if (state === 'included') {
-      return `
-        cursor: pointer;
-      `;
-    }
-    if (state === 'basic') {
-      return `
+    switch (state) {
+      case 'basic':
+        return `
         border-radius: 48px;
         cursor: pointer;
         &:hover {
           border: 1px solid ${COLOR.GREY[100]};
         }
-    `;
-    }
-    if (state === 'disabled') {
-      return `
+      `;
+      case 'disabled':
+        return `
         color:${COLOR.GREY[400]};
         pointer-events: none;
       `;
-    }
-    if (state === 'checkin' || state === 'checkout') {
-      return `
+      case 'included':
+        return `
+        cursor: pointer;
+      `;
+      case 'checkin':
+      case 'checkout':
+        return `
         color: ${COLOR.WHITE};
         background: ${COLOR.GREY[100]};
         border-radius: 48px;
         cursor: pointer;
-      `;
+        `;
+      default:
     }
   }};
 `;
