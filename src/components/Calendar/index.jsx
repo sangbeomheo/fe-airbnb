@@ -8,7 +8,9 @@ import YearMonth from './YearMonth';
 import DateUnit from './DateUnit';
 
 function Calendar({ date }) {
-  const { reservationInfo } = useContext(ReservationInfoContext);
+  const { reservationInfo, setReservationInfo, updateReservationInfo } =
+    useContext(ReservationInfoContext);
+
   const { checkin, checkout } = reservationInfo;
 
   const getDateUnitState = date => {
@@ -22,16 +24,8 @@ function Calendar({ date }) {
   };
 
   const handleDateUnitClick = (date, state) => {
-    console.log(reservationInfo);
-    console.log(date, state);
-    // TODO
-    // * 체크인, 체크아웃 둘 다 있는 경우
-    // 체크인 클릭 -> 체크인, 체크아웃 같은 날로 변경
-    // 체크아웃 클릭 -> 그대로
-    // 체크인 보다 뒷 날짜 클릭 -> 체크아웃 날짜가 클릭한 날짜로 변경
-    // 체크인 보다 앞 날짜 클릭 -> 채크아웃 날짜 없어짐, 체크인 날짜가 클릭한 날짜로 변경
-    // * 체크인만 있는 경우
-    // 체크인 클릭 -> 체크인, 체크아웃 같은 날로 변경
+    // checkout 날짜를 변경하는 로직만 구현해봄
+    updateReservationInfo('checkout', getStringDate(date, '-'));
   };
 
   const rows = getCalendarRows(date);

@@ -48,22 +48,20 @@ const Date = styled.div`
   border: 1px solid transparent;
   ${({ state }) => {
     switch (state) {
+      case 'disabled':
+        return `
+        color:${COLOR.GREY[400]};
+        pointer-events: none;
+      `;
       case 'basic':
+      case 'included':
         return `
         border-radius: 48px;
         cursor: pointer;
         &:hover {
           border: 1px solid ${COLOR.GREY[100]};
         }
-      `;
-      case 'disabled':
-        return `
-        color:${COLOR.GREY[400]};
-        pointer-events: none;
-      `;
-      case 'included':
-        return `
-        cursor: pointer;
+
       `;
       case 'checkin':
       case 'checkout':

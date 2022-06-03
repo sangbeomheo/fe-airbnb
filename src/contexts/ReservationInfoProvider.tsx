@@ -12,6 +12,7 @@ const getAfterAWeek = () => {
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
   setReservationInfo: SetStateAction<object>;
+  updateReservationInfo: () => void;
 }
 
 const initialReservationInfo = {
@@ -33,7 +34,18 @@ const ReservationInfoContext = createContext<UseReservationInfo>({
 
 function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   const [reservationInfo, setReservationInfo] = useState(initialReservationInfo);
-  const reservationState = useMemo(() => ({ reservationInfo, setReservationInfo }), []);
+
+  const updateReservationInfo = (key: string, value: string) => {
+    const newReservationInfo = JSON.parse(JSON.stringify(reservationInfo));
+    newReservationInfo[key] = value;
+
+    setReservationInfo(newReservationInfo);
+  };
+
+  const reservationState = useMemo(
+    () => ({ reservationInfo, setReservationInfo, updateReservationInfo }),
+    [reservationInfo]
+  );
 
   return (
     <ReservationInfoContext.Provider value={reservationState}>
