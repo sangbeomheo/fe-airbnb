@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { getStringDate } from '@/utils/util';
@@ -11,11 +11,10 @@ function Calendar({ date }) {
   const { reservationInfo } = useContext(ReservationInfoContext);
   const { checkin, checkout } = reservationInfo;
 
-  const rows = getCalendarRows(date);
-
   const getDateUnitState = date => {
-    const stringFullDate = (date, getStringDate(date, '-'));
     if (date < TODAY) return 'disabled';
+
+    const stringFullDate = (date, getStringDate(date, '-'));
     if (stringFullDate === checkin) return 'checkin';
     if (stringFullDate === checkout) return 'checkout';
     if (stringFullDate > checkin && stringFullDate < checkout) return 'included';
@@ -25,7 +24,17 @@ function Calendar({ date }) {
   const handleDateUnitClick = (date, state) => {
     console.log(reservationInfo);
     console.log(date, state);
+    // TODO
+    // * 체크인, 체크아웃 둘 다 있는 경우
+    // 체크인 클릭 -> 체크인, 체크아웃 같은 날로 변경
+    // 체크아웃 클릭 -> 그대로
+    // 체크인 보다 뒷 날짜 클릭 -> 체크아웃 날짜가 클릭한 날짜로 변경
+    // 체크인 보다 앞 날짜 클릭 -> 채크아웃 날짜 없어짐, 체크인 날짜가 클릭한 날짜로 변경
+    // * 체크인만 있는 경우
+    // 체크인 클릭 -> 체크인, 체크아웃 같은 날로 변경
   };
+
+  const rows = getCalendarRows(date);
 
   return (
     <TableContainer>
