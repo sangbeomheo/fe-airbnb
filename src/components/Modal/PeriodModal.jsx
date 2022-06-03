@@ -3,22 +3,25 @@ import Portal from '@components/Modal';
 import styled from 'styled-components';
 import Calendar from '@components/Calendar';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { TODAY } from '@/constants/date';
+import { TODAY, THIS_YEAR, THIS_MONTH } from '@/constants/date';
 import IconButton from '../common/IconButton';
 
 function PeriodModal() {
   const { reservationInfo } = useContext(ReservationInfoContext);
-  const checkinDate = new Date(reservationInfo.checkin);
 
-  const [currMonthDate, setCurrMonthDate] = useState(checkinDate);
-  const [currYear, currMonth] = [currMonthDate.getFullYear(), currMonthDate.getMonth()];
-  const nextMonthDate = new Date(currYear, currMonth + 1);
+  const initialPivotMonthDate = reservationInfo.checkin
+    ? new Date(new Date(reservationInfo.checkin).setDate(1))
+    : new Date(THIS_YEAR, THIS_MONTH, 1);
+
+  const [pivotMonthDate, setPivotMonthDate] = useState(initialPivotMonthDate);
+  const [pivotYear, pivotMonth] = [pivotMonthDate.getFullYear(), pivotMonthDate.getMonth()];
+  const nextMonthDate = new Date(pivotYear, pivotMonth + 1);
 
   const flipCalendar = direction => {
-    if (direction === 'prev' && TODAY >= currMonthDate) return;
+    if (direction === 'prev' && TODAY >= pivotMonthDate) return;
 
     const monthCounter = direction === 'prev' ? -1 : 1;
-    setCurrMonthDate(new Date(currYear, currMonth + monthCounter));
+    setPivotMonthDate(new Date(pivotYear, pivotMonth + monthCounter));
   };
 
   return (
@@ -28,7 +31,7 @@ function PeriodModal() {
           <IconButton icon="chevronLeft" handleClick={() => flipCalendar('prev')} />
           <IconButton icon="chevronRight" handleClick={() => flipCalendar('next')} />
         </ButtonWrap>
-        <Calendar date={currMonthDate} />
+        <Calendar date={pivotMonthDate} />
         <Calendar date={nextMonthDate} />
       </Container>
     </Portal>
