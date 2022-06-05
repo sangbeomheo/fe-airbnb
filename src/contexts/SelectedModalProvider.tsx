@@ -1,15 +1,15 @@
-import React, { useReducer, createContext, useMemo, SetStateAction } from 'react';
+import React, { useReducer, createContext, useMemo, Dispatch } from 'react';
 import PeriodModal from '@components/Modal/PeriodModal';
 import PriceModal from '@components/Modal/PriceModal';
 
 interface UseSelectedModal {
-  selectedModal: React.ReactNode;
-  setSelectedModal: SetStateAction<object>;
+  selectedModal: React.ReactNode | null;
+  dispatchSelectedModal: Dispatch<{ type: string }>;
 }
 
 const SelectedModalContext = createContext<UseSelectedModal>({
   selectedModal: null,
-  setSelectedModal: () => null
+  dispatchSelectedModal: () => null
 });
 
 const modalReducer = (selectedModal: React.ReactNode, action: { type: string }) => {
@@ -21,7 +21,8 @@ const modalReducer = (selectedModal: React.ReactNode, action: { type: string }) 
     case 'price':
       return <PriceModal />;
     default:
-      return new Error("'type'이 없습니다.");
+      console.error("'type'이 없습니다.");
+      return selectedModal;
   }
 };
 
