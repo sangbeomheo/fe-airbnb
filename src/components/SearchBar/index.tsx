@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, SearchBtnWrap } from '@components/SearchBar/index.style';
+import { Container, SearchButtonWrap, SearchText } from '@components/SearchBar/index.style';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { SelectedModalContext } from '@contexts/SelectedModalProvider';
 import IconButton from '@components/common/IconButton';
@@ -50,6 +50,8 @@ function SearchBar() {
     return reservationPersonnelTexts;
   };
 
+  const hasReservationDate = reservationInfo.period.checkin && reservationInfo.period.checkout;
+
   return (
     <>
       <Container>
@@ -67,9 +69,11 @@ function SearchBar() {
             />
           )
         )}
-        <SearchBtnWrap>
-          <IconButton icon="search" />
-        </SearchBtnWrap>
+        <SearchButtonWrap disabled={!hasReservationDate}>
+          <IconButton icon="search" disabled={!hasReservationDate}>
+            {hasReservationDate ? <SearchText>검색</SearchText> : undefined}
+          </IconButton>
+        </SearchButtonWrap>
       </Container>
       {selectedModal}
     </>

@@ -9,8 +9,8 @@ const Container = styled.div`
     hasBorderLeft ? '24px' : '0'};
   border-left: ${({ hasBorderLeft }: { hasBorderLeft: boolean }) =>
     hasBorderLeft ? `1px solid ${COLOR.GREY[500]}` : '0'};
-  svg {
-    padding: 0;
+  &:first-child {
+    max-width: 145px;
   }
 `;
 

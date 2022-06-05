@@ -5,7 +5,9 @@ import { ReactComponent as Xcircle } from '@assets/images/icon_xCircle.svg';
 import { Button } from '@components/common/IconButton.style';
 
 interface Props {
+  children?: React.ReactNode | string | number;
   icon: string;
+  disabled?: boolean;
 }
 
 const icons: { [key: string]: FunctionComponent } = {
@@ -14,12 +16,13 @@ const icons: { [key: string]: FunctionComponent } = {
   xCircle: Xcircle
 };
 
-export default function IconButton({ icon }: Props) {
+export default function IconButton({ children, icon, disabled }: Props) {
   const Icon = icons[icon];
 
   return (
-    <Button>
+    <Button disabled={disabled}>
       <Icon />
+      {children}
     </Button>
   );
 }

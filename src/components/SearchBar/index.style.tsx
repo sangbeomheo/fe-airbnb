@@ -11,18 +11,22 @@ const Container = styled.div`
   border: 1px solid ${COLOR.GREY[400]};
   border-radius: 40px;
   max-width: 960px;
-  & > *:first-child {
-    max-width: 145px;
-  }
 `;
 
-const SearchBtnWrap = styled.div`
+const SearchButtonWrap = styled.div`
   padding: 8px;
   border-radius: 40px;
   height: 40px;
-  background-color: ${COLOR.PRIMARY};
-  svg {
+  color: ${COLOR.WHITE};
+  background-color: ${({ disabled }: { disabled: boolean }) =>
+    disabled ? `${COLOR.GREY[400]}` : `${COLOR.PRIMARY}`};
+  button {
     padding: 0;
   }
 `;
-export { Container, SearchBtnWrap };
+
+const SearchText = styled.span`
+  margin: 0 8px;
+  line-height: 24px;
+`;
+export { Container, SearchButtonWrap, SearchText };
