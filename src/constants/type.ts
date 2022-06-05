@@ -1,8 +1,13 @@
 interface ReservationInfo {
-  checkin: string | null;
-  checkout: string | null;
-  minPrice: number | null;
-  maxPrice: number | null;
+  period: {
+    checkin: string | null;
+    checkout: string | null;
+  };
+  price: {
+    min: number;
+    max: number;
+    averages: number[];
+  };
   persons: {
     adult: number;
     child: number;

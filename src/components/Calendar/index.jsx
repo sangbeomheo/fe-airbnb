@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { getStringDate } from '@/utils/util';
-import { TODAY } from '@/constants/date';
-import WeekDays from './WeekDays';
-import YearMonth from './YearMonth';
-import DateUnit from './DateUnit';
+import { TODAY } from '@constants/date';
+import WeekDays from '@components/Calendar/WeekDays';
+import YearMonth from '@components/Calendar/YearMonth';
+import DateUnit from '@components/Calendar/DateUnit';
 
 function Calendar({ date }) {
-  const { reservationInfo, setReservationInfo, updateReservationInfo } =
-    useContext(ReservationInfoContext);
+  const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
 
   const { checkin, checkout } = reservationInfo;
 
@@ -25,7 +24,7 @@ function Calendar({ date }) {
 
   const handleDateUnitClick = (date, state) => {
     // checkout 날짜를 변경하는 로직만 구현해봄
-    updateReservationInfo('checkout', getStringDate(date, '-'));
+    setReservationInfo({ ...reservationInfo, checkout: getStringDate(date, '-') });
   };
 
   const rows = getCalendarRows(date);
