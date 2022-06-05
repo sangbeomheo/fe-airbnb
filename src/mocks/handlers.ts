@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { MILLISECOND_FOR_ONE_DAY } from '@constants/date';
+import { MILLISECOND_FOR_ONE_DAY } from '@/constants';
 
 import accommodations from './accommodations';
 

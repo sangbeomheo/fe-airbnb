@@ -1,6 +1,7 @@
 import React from 'react';
 import { Wrapper, Header, Contents, Footer } from '@layout/index.style';
 import { ReservationInfoProvider } from '@contexts/ReservationInfoProvider';
+import { SelectedModalProvider } from '@contexts/SelectedModalProvider';
 
 interface Props {
   header: JSX.Element[] | JSX.Element;
@@ -11,11 +12,13 @@ interface Props {
 function Layout({ header, children, footer = null, ...props }: Props) {
   return (
     <ReservationInfoProvider>
-      <Wrapper {...props}>
-        <Header>{header}</Header>
-        <Contents>{children}</Contents>
-        <Footer>{footer}</Footer>
-      </Wrapper>
+      <SelectedModalProvider>
+        <Wrapper {...props}>
+          <Header>{header}</Header>
+          <Contents>{children}</Contents>
+          <Footer>{footer}</Footer>
+        </Wrapper>
+      </SelectedModalProvider>
     </ReservationInfoProvider>
   );
 }

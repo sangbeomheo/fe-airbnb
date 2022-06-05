@@ -1,10 +1,9 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext } from 'react';
 import { Container, SearchBtnWrap } from '@components/SearchBar/index.style';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
+import { SelectedModalContext } from '@contexts/SelectedModalProvider';
 import IconButton from '@components/common/IconButton';
 import SearchInputButton from '@components/SearchBar/SearchInputButton';
-import PeriodModal from '@components/Modal/PeriodModal';
-import PriceModal from '@components/Modal/PriceModal';
 import { PERSONS_TEXTS } from '@/constants';
 
 const searchInputButtonsInfo = [
@@ -27,22 +26,9 @@ const searchInputButtonsInfo = [
   { name: '인원', label: '인원', placeholder: '게스트 추가', searchName: 'persons' }
 ];
 
-const modalReducer = (selectedModal: React.ReactElement, action: { type: string }) => {
-  switch (action.type) {
-    case 'checkin':
-      return <PeriodModal />;
-    case 'checkout':
-      return <PeriodModal />;
-    case 'price':
-      return <PriceModal />;
-    default:
-      return new Error("'type'이 없습니다.");
-  }
-};
-
 function SearchBar() {
   const { reservationInfo } = useContext(ReservationInfoContext);
-  const [selectedModal, dispatchSelectedModal] = useReducer(modalReducer, null);
+  const { selectedModal, dispatchSelectedModal } = useContext(SelectedModalContext);
 
   const getSearchModal = (searchName: string) => {
     dispatchSelectedModal({ type: searchName });
