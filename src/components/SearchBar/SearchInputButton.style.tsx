@@ -18,15 +18,14 @@ const InputButton = styled.button`
   border-radius: 40px;
   text-align: left;
   min-width: 120px;
-  &:focus > span {
-    font-weight: ${FONT.WEIGHT.BOLD};
-  }
 `;
 
 const Label = styled.span`
   margin: 0 0 8px;
   font-size: ${FONT.SIZE.X_SMALL};
-  font-weight: ${FONT.WEIGHT.MEDIUM};
+  font-weight: ${({ focus }: { focus: boolean }) =>
+    focus ? `${FONT.WEIGHT.BOLD}` : `${FONT.WEIGHT.MEDIUM}`};
+  color: ${({ focus }: { focus: boolean }) => (focus ? `${COLOR.PRIMARY}` : `${COLOR.BLACK}`)};
 `;
 
 const PlaceHolder = styled.span`
