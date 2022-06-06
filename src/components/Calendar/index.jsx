@@ -39,15 +39,6 @@ function Calendar({ date }) {
         return;
 
       case 'checkout':
-        // if (date < new Date(reservationInfo.period.checkin)) {
-        //   setReservationInfo({
-        //     ...reservationInfo,
-        //     checkin: getStringDate(date, '-'),
-        //     checkout: null
-        //   });
-        //   setSelectedModalName('checkout');
-        //   return;
-        // }
         setReservationInfo({
           ...reservationInfo,
           period: {
