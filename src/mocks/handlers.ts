@@ -1,6 +1,5 @@
 import { rest } from 'msw';
 import { MILLISECOND_FOR_ONE_DAY } from '@/constants';
-
 import accommodations from './accommodations';
 
 const getDataForPeriod = (checkin: string, checkout: string) => {
@@ -9,14 +8,14 @@ const getDataForPeriod = (checkin: string, checkout: string) => {
   const checkoutToTime = new Date(checkout).getTime();
   const period = (checkoutToTime - checkinToTime) / MILLISECOND_FOR_ONE_DAY;
   const dataForPeriod = accommodations.map(accommodation => {
-    const priceForPeriod = [];
+    const pricesForPeriod = [];
 
-    for (let count = checkinDay - 1; count < period; count += 1) {
-      const idx = count % accommodations.length;
-      priceForPeriod.push(accommodation.price[idx]);
+    for (let count = 0; count < period; count += 1) {
+      const idx = String(checkinDay + count).slice(-1);
+      pricesForPeriod.push(accommodation.price[+idx - 1]);
     }
 
-    return { ...accommodation, price: priceForPeriod };
+    return { ...accommodation, price: pricesForPeriod };
   });
 
   return dataForPeriod;
