@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, SearchButtonWrap, SearchText } from '@components/SearchBar/index.style';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { SelectedModalContext } from '@contexts/SelectedModalProvider';
+import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import PeriodModal from '@components/Modal/PeriodModal';
+import PriceModal from '@components/Modal/PriceModal';
 import IconButton from '@components/common/IconButton';
 import SearchInputButton from '@components/SearchBar/SearchInputButton';
 import { PERSONS_TEXTS } from '@/constants';
@@ -28,11 +30,27 @@ const searchInputButtonsInfo = [
 
 function SearchBar() {
   const { reservationInfo } = useContext(ReservationInfoContext);
-  const { selectedModal, dispatchSelectedModal } = useContext(SelectedModalContext);
+  const { selectedModalName, setSelectedModalName } = useContext(SelectedModalNameContext);
+  const [selectedModal, setSelectedModal] = useState<React.ReactNode | null>(null);
 
-  const getSearchModal = (searchName: string) => {
-    dispatchSelectedModal({ type: searchName });
+  const getSelectedModal = () => {
+    switch (selectedModalName) {
+      case 'checkin':
+        setSelectedModal(<PeriodModal />);
+        break;
+      case 'checkout':
+        setSelectedModal(<PeriodModal />);
+        break;
+      case 'price':
+        setSelectedModal(<PriceModal />);
+        break;
+      default:
+        console.error("'type'이 없습니다.");
+        setSelectedModal(selectedModal);
+    }
   };
+
+  useEffect(getSelectedModal, [selectedModalName]);
 
   const getReservationPersonnelText = () => {
     const reservationPersonnelTexts = Object.keys(reservationInfo.persons).reduce(
@@ -65,7 +83,7 @@ function SearchBar() {
               searchName={searchName}
               hasCloseBtn={hasCloseBtn}
               hasBorderLeft={hasBorderLeft}
-              getSearchModal={getSearchModal}
+              setSelectedModalName={setSelectedModalName}
             />
           )
         )}

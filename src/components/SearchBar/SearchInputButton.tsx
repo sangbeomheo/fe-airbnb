@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import IconButton from '@components/common/IconButton';
 import {
   Container,
@@ -15,7 +15,7 @@ interface Props {
   searchName: string;
   hasCloseBtn?: boolean;
   hasBorderLeft?: boolean;
-  getSearchModal: (searchName: string) => void;
+  setSelectedModalName: SetStateAction<object>;
 }
 
 function SearchInputButton({
@@ -26,11 +26,11 @@ function SearchInputButton({
   searchName,
   hasCloseBtn = true,
   hasBorderLeft = true,
-  getSearchModal
+  setSelectedModalName
 }: Props) {
   return (
     <Container hasBorderLeft={hasBorderLeft}>
-      <InputButton type="button" name={name} onClick={() => getSearchModal(searchName)}>
+      <InputButton type="button" name={name} onClick={() => setSelectedModalName(searchName)}>
         <Label>{label}</Label>
         <div>{value || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
       </InputButton>
