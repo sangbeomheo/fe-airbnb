@@ -30,7 +30,7 @@ const searchInputButtonsInfo = [
 
 function SearchBar() {
   const { reservationInfo } = useContext(ReservationInfoContext);
-  const { selectedModalName, setSelectedModalName } = useContext(SelectedModalNameContext);
+  const { selectedModalName } = useContext(SelectedModalNameContext);
   const [selectedModal, setSelectedModal] = useState<React.ReactNode | null>(null);
 
   const getSelectedModal = () => {
@@ -45,8 +45,7 @@ function SearchBar() {
         setSelectedModal(<PriceModal />);
         break;
       default:
-        console.error("'type'이 없습니다.");
-        setSelectedModal(selectedModal);
+        setSelectedModal(null);
     }
   };
 
@@ -72,7 +71,7 @@ function SearchBar() {
 
   return (
     <>
-      <Container>
+      <Container className="searchBar">
         {searchInputButtonsInfo.map(
           ({ name, label, placeholder, searchName, hasCloseBtn, hasBorderLeft }, idx) => (
             <SearchInputButton
@@ -83,7 +82,6 @@ function SearchBar() {
               searchName={searchName}
               hasCloseBtn={hasCloseBtn}
               hasBorderLeft={hasBorderLeft}
-              setSelectedModalName={setSelectedModalName}
             />
           )
         )}

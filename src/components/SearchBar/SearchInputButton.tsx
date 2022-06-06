@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import IconButton from '@components/common/IconButton';
 import {
   Container,
@@ -6,6 +6,7 @@ import {
   Label,
   PlaceHolder
 } from '@components/SearchBar/SearchInputButton.style';
+import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
 
 interface Props {
   name: string;
@@ -15,7 +16,6 @@ interface Props {
   searchName: string;
   hasCloseBtn?: boolean;
   hasBorderLeft?: boolean;
-  setSelectedModalName: SetStateAction<object>;
 }
 
 function SearchInputButton({
@@ -25,13 +25,20 @@ function SearchInputButton({
   placeholder,
   searchName,
   hasCloseBtn = true,
-  hasBorderLeft = true,
-  setSelectedModalName
+  hasBorderLeft = true
 }: Props) {
+  const { selectedModalName, showSearchModal } = useContext(SelectedModalNameContext);
+  const [focus, setFocus] = useState(false);
+
+  useEffect(() => {
+    if (selectedModalName === searchName) setFocus(true);
+    else setFocus(false);
+  }, [selectedModalName]);
+
   return (
     <Container hasBorderLeft={hasBorderLeft}>
-      <InputButton type="button" name={name} onClick={() => setSelectedModalName(searchName)}>
-        <Label>{label}</Label>
+      <InputButton type="button" name={name} onClick={() => showSearchModal(searchName)}>
+        <Label focus={focus}>{label}</Label>
         <div>{value || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
       </InputButton>
       {hasCloseBtn && value && <IconButton icon="xCircle" />}
