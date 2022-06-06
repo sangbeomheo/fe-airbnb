@@ -73,7 +73,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    setPriceRange();
+    if (reservationInfo.period.checkin && reservationInfo.period.checkout) setPriceRange();
   }, [reservationInfo.period]);
 
   return (

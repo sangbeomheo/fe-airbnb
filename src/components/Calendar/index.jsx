@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
+import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
 import { getStringDate } from '@/utils/util';
 import { TODAY } from '@constants/date';
 import WeekDays from '@components/Calendar/WeekDays';
@@ -9,8 +10,9 @@ import DateUnit from '@components/Calendar/DateUnit';
 
 function Calendar({ date }) {
   const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
+  const { selectedModalName, setSelectedModalName } = useContext(SelectedModalNameContext);
 
-  const { checkin, checkout } = reservationInfo;
+  const { checkin, checkout } = reservationInfo.period;
 
   const getDateUnitState = date => {
     if (date < TODAY) return 'disabled';
@@ -23,8 +25,42 @@ function Calendar({ date }) {
   };
 
   const handleDateUnitClick = (date, state) => {
-    // checkout 날짜를 변경하는 로직만 구현해봄
-    setReservationInfo({ ...reservationInfo, checkout: getStringDate(date, '-') });
+    switch (selectedModalName) {
+      case 'checkin':
+        setReservationInfo({
+          ...reservationInfo,
+          period: {
+            checkin: getStringDate(date, '-'),
+            checkout: null
+          }
+        });
+        console.log(reservationInfo);
+        setSelectedModalName('checkout');
+        return;
+
+      case 'checkout':
+        // if (date < new Date(reservationInfo.period.checkin)) {
+        //   setReservationInfo({
+        //     ...reservationInfo,
+        //     checkin: getStringDate(date, '-'),
+        //     checkout: null
+        //   });
+        //   setSelectedModalName('checkout');
+        //   return;
+        // }
+        setReservationInfo({
+          ...reservationInfo,
+          period: {
+            checkin,
+            checkout: getStringDate(date, '-')
+          }
+        });
+        setSelectedModalName('checkin');
+        return;
+
+      default:
+        console.log(true);
+    }
   };
 
   const rows = getCalendarRows(date);
