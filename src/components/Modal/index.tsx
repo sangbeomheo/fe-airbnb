@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Container } from '@components/Modal/index.style';
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
 }
 
 function Portal({ children }: Props) {

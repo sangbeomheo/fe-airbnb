@@ -2,9 +2,9 @@ import React from 'react';
 import { Wrapper, Header, Contents, Footer } from '@layout/index.style';
 
 interface Props {
-  header: JSX.Element[] | JSX.Element;
-  children: JSX.Element[] | JSX.Element;
-  footer?: JSX.Element[] | JSX.Element;
+  header: React.ReactNode;
+  children: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 function Layout({ header, children, footer, ...props }: Props) {
