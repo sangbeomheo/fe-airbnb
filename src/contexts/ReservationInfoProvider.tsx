@@ -50,7 +50,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
     const dataForPeriod = await fetchDataForPeriod();
     const averages = dataForPeriod.map(({ price }: { price: number[] }) => {
       const sumPrices = price.reduce((acc, cur) => acc + cur);
-      const average = Math.floor(sumPrices / price.length / 100) * 100;
+      const average = Math.floor(sumPrices / price.length);
 
       return average;
     });

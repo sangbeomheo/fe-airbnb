@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext, useState } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { Description } from '@components/Modal/index.style';
 import { COLOR, MAX_PRICE_RANGE } from '@/constants';
 import Portal from '@components/Modal';
@@ -11,7 +11,6 @@ const CANVAS_WIDTH = 360;
 const CANVAS_HEIGHT = 100;
 
 function PriceModal() {
-  const [priceRange] = useState({ min: 0, max: 0, average: 0 });
   const { reservationInfo } = useContext(ReservationInfoContext);
 
   const calcPricePerStick = () => {
@@ -26,7 +25,7 @@ function PriceModal() {
     const pricePerStick = calcPricePerStick();
     const accommodationLengthPerStick = new Array(STICK_LENGTH).fill(0);
     reservationInfo.price.averages.forEach(average => {
-      let stickIndex = Math.floor((average - priceRange.min) / pricePerStick);
+      let stickIndex = Math.floor((average - reservationInfo.price.min) / pricePerStick);
       if (stickIndex >= STICK_LENGTH) stickIndex = STICK_LENGTH - 1;
       accommodationLengthPerStick[stickIndex] += 1;
     });
@@ -78,9 +77,9 @@ function PriceModal() {
     <Portal>
       <Title>가격 범위</Title>
       <div>
-        ₩ <span> {addCommasToNumber(priceRange.min)} </span> - ₩
-        <span> {addCommasToNumber(priceRange.max)} </span>
-        {priceRange.max > MAX_PRICE_RANGE ? '+' : ''}
+        ₩ <span> {addCommasToNumber(reservationInfo.price.min)} </span> - ₩
+        <span> {addCommasToNumber(reservationInfo.price.max)} </span>
+        {reservationInfo.price.max > MAX_PRICE_RANGE ? '+' : ''}
       </div>
       <Description>
         평균 1박 요금은 <span>₩ {calcAveragePrice()}</span> 입니다.
