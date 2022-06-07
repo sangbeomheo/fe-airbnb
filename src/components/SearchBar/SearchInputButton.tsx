@@ -8,7 +8,7 @@ import {
 } from '@components/SearchBar/SearchInputButton.style';
 import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
 
-interface Props {
+interface SearchInputButtonProps {
   name: string;
   label: string;
   value?: string;
@@ -26,7 +26,7 @@ function SearchInputButton({
   searchName,
   hasCloseBtn = true,
   hasBorderLeft = true
-}: Props) {
+}: SearchInputButtonProps) {
   const { selectedModalName, showSearchModal } = useContext(SelectedModalNameContext);
   const [focus, setFocus] = useState(false);
 

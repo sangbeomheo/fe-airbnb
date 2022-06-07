@@ -7,7 +7,7 @@ import { ReactComponent as ChevronRight } from '@assets/images/icon_chevronRight
 
 import { Button } from '@components/common/IconButton.style';
 
-interface Props {
+interface IconButtonProps {
   children?: React.ReactNode | string | number;
   icon: string;
   disabled?: boolean;
@@ -22,7 +22,7 @@ const icons: { [key: string]: FunctionComponent } = {
   chevronRight: ChevronRight
 };
 
-export default function IconButton({ children, icon, handleClick, disabled }: Props) {
+export default function IconButton({ children, icon, handleClick, disabled }: IconButtonProps) {
   const Icon = icons[icon];
 
   return (
