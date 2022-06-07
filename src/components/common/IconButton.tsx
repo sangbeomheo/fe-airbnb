@@ -11,7 +11,7 @@ interface Props {
   children?: React.ReactNode | string | number;
   icon: string;
   disabled?: boolean;
-  handleClick?: FunctionComponent;
+  handleClick?: () => void;
 }
 
 const icons: { [key: string]: FunctionComponent } = {
