@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, SearchButtonWrap, SearchText } from '@components/SearchBar/index.style';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 import PeriodModal from '@components/Modal/PeriodModal';
 import PriceModal from '@components/Modal/PriceModal';
 import IconButton from '@components/common/IconButton';

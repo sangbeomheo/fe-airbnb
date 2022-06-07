@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 import { getStringDate } from '@/utils/util';
 import { TODAY } from '@constants/date';
 import WeekDays from '@components/Calendar/WeekDays';

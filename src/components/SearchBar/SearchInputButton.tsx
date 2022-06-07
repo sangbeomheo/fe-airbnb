@@ -6,7 +6,7 @@ import {
   Label,
   PlaceHolder
 } from '@components/SearchBar/SearchInputButton.style';
-import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 
 interface Props {
   name: string;
