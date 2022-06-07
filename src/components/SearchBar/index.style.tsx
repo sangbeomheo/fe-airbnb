@@ -3,9 +3,10 @@ import { COLOR } from '@/constants';
 
 const Container = styled.div`
   margin: 40px auto 0;
-  padding: 16px 16px 16px 40px;
+  padding: 0 16px 0 40px;
   display: flex;
-  gap: 24px;
+  justify-content: space-between;
+
   align-items: center;
   background: ${COLOR.WHITE};
   border: 1px solid ${COLOR.GREY[400]};

@@ -6,16 +6,16 @@ import {
   Label,
   PlaceHolder
 } from '@components/SearchBar/SearchInputButton.style';
-import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
+import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
+import { getStringDate } from '@/utils/util';
 
 interface SearchInputButtonProps {
   name: string;
   label: string;
-  value?: string;
+  value?: string | null;
   placeholder: string;
   searchName: string;
-  hasCloseBtn?: boolean;
-  hasBorderLeft?: boolean;
 }
 
 function SearchInputButton({
@@ -23,12 +23,45 @@ function SearchInputButton({
   label,
   value = '',
   placeholder,
-  searchName,
-  hasCloseBtn = true,
-  hasBorderLeft = true
+  searchName
 }: SearchInputButtonProps) {
   const { selectedModalName, showSearchModal } = useContext(SelectedModalNameContext);
+  const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
   const [focus, setFocus] = useState(false);
+
+  const resetValue = (searchName: string) => {
+    switch (searchName) {
+      case 'checkin':
+        setReservationInfo({
+          ...reservationInfo,
+          period: {
+            checkin: null,
+            checkout: reservationInfo.period.checkout
+          }
+        });
+        break;
+
+      case 'checkout':
+        setReservationInfo({
+          ...reservationInfo,
+          period: {
+            checkin: reservationInfo.period.checkin,
+            checkout: null
+          }
+        });
+        break;
+
+      case 'price':
+        console.log('price');
+        break;
+
+      case 'personal':
+        console.log('personal');
+        break;
+
+      default:
+    }
+  };
 
   useEffect(() => {
     if (selectedModalName === searchName) setFocus(true);
@@ -36,12 +69,12 @@ function SearchInputButton({
   }, [selectedModalName]);
 
   return (
-    <Container hasBorderLeft={hasBorderLeft}>
+    <Container focus={focus}>
       <InputButton type="button" name={name} onClick={() => showSearchModal(searchName)}>
         <Label focus={focus}>{label}</Label>
         <div>{value || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
       </InputButton>
-      {hasCloseBtn && value && <IconButton icon="xCircle" />}
+      {value && <IconButton icon="xCircle" handleClick={() => resetValue(searchName)} />}
     </Container>
   );
 }

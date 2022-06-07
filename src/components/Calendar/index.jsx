@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { SelectedModalNameContext } from '@/contexts/SelectedModalNameProvider';
+import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 import { getStringDate } from '@/utils/util';
 import { TODAY } from '@constants/date';
 import WeekDays from '@components/Calendar/WeekDays';
@@ -24,7 +24,7 @@ function Calendar({ date }) {
     return 'basic';
   };
 
-  const handleDateUnitClick = (date, state) => {
+  const handleDateUnitClick = date => {
     const clickedDate = getStringDate(date, '-');
 
     switch (selectedModalName) {
@@ -38,7 +38,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkin');
-          return;
+          break;
         }
         setReservationInfo({
           ...reservationInfo,
@@ -60,7 +60,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkin');
-          return;
+          break;
         }
         if (clickedDate < checkin) {
           setReservationInfo({
@@ -71,7 +71,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkout');
-          return;
+          break;
         }
         setReservationInfo({
           ...reservationInfo,

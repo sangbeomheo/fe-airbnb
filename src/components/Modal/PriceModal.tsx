@@ -69,7 +69,7 @@ function PriceModal() {
       reservationInfo.price.averages.reduce((acc, cur) => acc + cur, 0) /
       reservationInfo.price.averages.length;
 
-    return avergePrice;
+    return avergePrice || 0;
   };
 
   useEffect(drawStickChartAboutPrice, []);

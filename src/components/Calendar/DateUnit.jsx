@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
 /* eslint-disable consistent-return */
 import React from 'react';
 import styled from 'styled-components';
-import { COLOR, FONT } from '@/constants';
+import { COLOR, FONT } from '@constants';
 
 function DateUnit({ date, state, handleClick }) {
   return (
