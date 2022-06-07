@@ -11,8 +11,8 @@ const getDataForPeriod = (checkin: string, checkout: string) => {
     const pricesForPeriod = [];
 
     for (let count = 0; count < period; count += 1) {
-      const idx = String(checkinDay + count).slice(-1);
-      pricesForPeriod.push(accommodation.price[+idx - 1]);
+      const idx = Number(`${checkinDay + count}`.slice(-1));
+      pricesForPeriod.push(accommodation.price[idx]);
     }
 
     return { ...accommodation, price: pricesForPeriod };
@@ -25,10 +25,12 @@ export const handlers = [
   rest.get('/reservation', (req, res, ctx) => {
     const checkin = req.url.searchParams.get('checkin');
     const checkout = req.url.searchParams.get('checkout');
+
     if (checkin && checkout) {
       const dataForPeriod = getDataForPeriod(checkin, checkout);
       return res(ctx.status(200), ctx.json(dataForPeriod));
     }
+
     return res(ctx.status(200), ctx.json(accommodations));
   })
 ];
