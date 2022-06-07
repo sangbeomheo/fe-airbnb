@@ -24,7 +24,7 @@ function Calendar({ date }) {
     return 'basic';
   };
 
-  const handleDateUnitClick = (date, state) => {
+  const handleDateUnitClick = date => {
     const clickedDate = getStringDate(date, '-');
 
     switch (selectedModalName) {
@@ -38,7 +38,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkin');
-          return;
+          break;
         }
         setReservationInfo({
           ...reservationInfo,
@@ -60,7 +60,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkin');
-          return;
+          break;
         }
         if (clickedDate < checkin) {
           setReservationInfo({
@@ -71,7 +71,7 @@ function Calendar({ date }) {
             }
           });
           setSelectedModalName('checkout');
-          return;
+          break;
         }
         setReservationInfo({
           ...reservationInfo,
