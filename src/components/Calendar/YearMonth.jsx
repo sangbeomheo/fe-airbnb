@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { FONT } from '@/constants';
+import { Caption } from '@/components/Calendar/YearMonth.style';
 
 function YearMonth({ date }) {
   const year = date.getFullYear();
@@ -12,10 +11,5 @@ function YearMonth({ date }) {
     </Caption>
   );
 }
-
-const Caption = styled.caption`
-  margin: 0 0 24px;
-  font-weight: ${FONT.WEIGHT.MEDIUM};
-`;
 
 export default YearMonth;

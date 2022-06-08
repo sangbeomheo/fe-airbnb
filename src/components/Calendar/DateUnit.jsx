@@ -1,5 +1,5 @@
 import React from 'react';
-import { Td, Date } from './DateUnit.style';
+import { Td, Date } from '@/components/Calendar/DateUnit.style';
 
 function DateUnit({ date, state, handleClick }) {
   return (
