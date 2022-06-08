@@ -9,4 +9,17 @@ const getStringDate = (date: Date, form: string) => {
 
 const addCommasToNumber = (number: number) => number.toLocaleString('en');
 
-export { getStringDate, addCommasToNumber };
+const fetchData = async (URL: string) => {
+  const response = await fetch(URL);
+  const data = await response.json();
+
+  return data;
+};
+
+const pipeAwait =
+  (...functions) =>
+  param => {
+    return functions.reduce(async (result, next) => next(await result), param);
+  };
+
+export { getStringDate, addCommasToNumber, fetchData, pipeAwait };

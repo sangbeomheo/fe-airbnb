@@ -20,7 +20,7 @@ interface IconButtonProps {
   children?: React.ReactNode | string | number;
   icon: string;
   disabled?: boolean;
-  handleClick?: FunctionComponent;
+  handleClick?: () => void;
 }
 
 export default function IconButton({ children, icon, handleClick, disabled }: IconButtonProps) {

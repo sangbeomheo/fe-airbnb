@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 import { getStringDate } from '@/utils/util';
@@ -7,6 +6,7 @@ import { TODAY } from '@constants/date';
 import WeekDays from '@components/Calendar/WeekDays';
 import YearMonth from '@components/Calendar/YearMonth';
 import DateUnit from '@components/Calendar/DateUnit';
+import { TableContainer, BlankUnit } from '@components/Calendar/index.style';
 
 function Calendar({ date }) {
   const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
@@ -15,13 +15,24 @@ function Calendar({ date }) {
   const { checkin, checkout } = reservationInfo.period;
 
   const getDateUnitState = date => {
-    if (date < TODAY) return 'disabled';
+    const stringFullDate = getStringDate(date, '-');
 
-    const stringFullDate = (date, getStringDate(date, '-'));
-    if (stringFullDate === checkin) return 'checkin';
-    if (stringFullDate === checkout) return 'checkout';
-    if (stringFullDate > checkin && stringFullDate < checkout) return 'included';
-    return 'basic';
+    switch (true) {
+      case date < TODAY:
+        return 'disabled';
+
+      case stringFullDate === checkin:
+        return 'checkin';
+
+      case stringFullDate === checkout:
+        return 'checkout';
+
+      case stringFullDate > checkin && stringFullDate < checkout:
+        return 'included';
+
+      default:
+        return 'basic';
+    }
   };
 
   const handleDateUnitClick = date => {
@@ -87,6 +98,29 @@ function Calendar({ date }) {
     }
   };
 
+  const getCalendarRows = date => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const startBlankCount = date.getDay();
+    const endBlankCount = 7 - ((startBlankCount + lastDate) % 7);
+    const rowCount = (lastDate + startBlankCount + endBlankCount) / 7;
+
+    const allDates = [
+      ...Array(startBlankCount).fill(0),
+      ...Array(lastDate)
+        .fill()
+        .map((_, i) => new Date(year, month, i + 1)),
+      ...Array(endBlankCount).fill(0)
+    ];
+
+    const rows = Array(rowCount)
+      .fill()
+      .map((_, i) => [...allDates].splice(i * 7, 7));
+
+    return rows;
+  };
+
   const rows = getCalendarRows(date);
 
   return (
@@ -117,38 +151,5 @@ function Calendar({ date }) {
     </TableContainer>
   );
 }
-
-const getCalendarRows = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const lastDate = new Date(year, month + 1, 0).getDate();
-  const startBlankCount = date.getDay();
-  const endBlankCount = 7 - ((startBlankCount + lastDate) % 7);
-  const rowCount = (lastDate + startBlankCount + endBlankCount) / 7;
-
-  const allDates = [
-    ...Array(startBlankCount).fill(0),
-    ...Array(lastDate)
-      .fill()
-      .map((_, i) => new Date(year, month, i + 1)),
-    ...Array(endBlankCount).fill(0)
-  ];
-
-  const rows = Array(rowCount)
-    .fill()
-    .map((_, i) => [...allDates].splice(i * 7, 7));
-
-  return rows;
-};
-
-const TableContainer = styled.table`
-  border-collapse: separate;
-  border-spacing: 0 4px;
-`;
-
-const BlankUnit = styled.td`
-  width: 48px;
-  height: 48px;
-`;
 
 export default Calendar;
