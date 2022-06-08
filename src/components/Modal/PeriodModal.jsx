@@ -16,14 +16,31 @@ function PeriodModal() {
     : new Date(THIS_YEAR, THIS_MONTH, firstDate);
 
   const [pivotMonthDate, setPivotMonthDate] = useState(initialPivotMonthDate);
+
   const [pivotYear, pivotMonth] = [pivotMonthDate.getFullYear(), pivotMonthDate.getMonth()];
+
   const nextMonthDate = new Date(pivotYear, pivotMonth + 1);
+
+  const getMonthCounter = direction => {
+    let monthCounter;
+
+    switch (direction) {
+      case 'prev':
+        monthCounter = -1;
+        break;
+      case 'next':
+        monthCounter = 1;
+        break;
+      default:
+    }
+
+    return monthCounter;
+  };
 
   const flipCalendar = direction => {
     if (direction === 'prev' && TODAY >= pivotMonthDate) return;
 
-    const monthCounter = direction === 'prev' ? -1 : 1;
-    setPivotMonthDate(new Date(pivotYear, pivotMonth + monthCounter));
+    setPivotMonthDate(new Date(pivotYear, pivotMonth + getMonthCounter(direction)));
   };
 
   return (
