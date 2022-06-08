@@ -22,19 +22,16 @@ function PeriodModal() {
   const nextMonthDate = new Date(pivotYear, pivotMonth + 1);
 
   const getMonthCounter = direction => {
-    let monthCounter;
-
     switch (direction) {
       case 'prev':
-        monthCounter = -1;
-        break;
-      case 'next':
-        monthCounter = 1;
-        break;
-      default:
-    }
+        return -1;
 
-    return monthCounter;
+      case 'next':
+        return 1;
+
+      default:
+        return 0;
+    }
   };
 
   const flipCalendar = direction => {
