@@ -3,7 +3,7 @@ import React, { useState, createContext, useMemo, SetStateAction } from 'react';
 type SelectedModalName = string | null;
 
 interface UseSelectedModalName {
-  selectedModalName: string | null;
+  selectedModalName: SelectedModalName;
   setSelectedModalName: SetStateAction<object>;
   showSearchModal: (searchName: string) => void;
   hideSearchModal: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
