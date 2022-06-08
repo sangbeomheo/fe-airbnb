@@ -9,9 +9,11 @@ import IconButton from '../common/IconButton';
 function PeriodModal() {
   const { reservationInfo } = useContext(ReservationInfoContext);
 
+  const firstDate = 1;
+
   const initialPivotMonthDate = reservationInfo.checkin
-    ? new Date(new Date(reservationInfo.checkin).setDate(1))
-    : new Date(THIS_YEAR, THIS_MONTH, 1);
+    ? new Date(new Date(reservationInfo.checkin).setDate(firstDate))
+    : new Date(THIS_YEAR, THIS_MONTH, firstDate);
 
   const [pivotMonthDate, setPivotMonthDate] = useState(initialPivotMonthDate);
   const [pivotYear, pivotMonth] = [pivotMonthDate.getFullYear(), pivotMonthDate.getMonth()];
