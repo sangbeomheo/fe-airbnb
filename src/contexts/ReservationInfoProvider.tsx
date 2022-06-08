@@ -3,6 +3,25 @@ import { MAX_PRICE_RANGE } from '@constants/reservation';
 import { ReservationInfo } from '@constants/type';
 import { fetchData, pipeAwait } from '@utils/util';
 
+const calcAveragePrices = async dataForPeriod => {
+  const averages = dataForPeriod.map(({ price }: { price: number[] }) => {
+    const sumPrices = price.reduce((acc, cur) => acc + cur);
+    const average = Math.floor(sumPrices / price.length / 100) * 100;
+
+    return average;
+  });
+
+  return averages;
+};
+
+const calcPriceRange = async averages => {
+  const min = Math.min(...averages);
+  let max = Math.max(...averages);
+  if (max > MAX_PRICE_RANGE) max = MAX_PRICE_RANGE;
+
+  return { min, max, averages };
+};
+
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
   setReservationInfo: SetStateAction<object>;
@@ -37,25 +56,6 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
     () => ({ reservationInfo, setReservationInfo }),
     [reservationInfo]
   );
-
-  const calcAveragePrices = async dataForPeriod => {
-    const averages = dataForPeriod.map(({ price }: { price: number[] }) => {
-      const sumPrices = price.reduce((acc, cur) => acc + cur);
-      const average = Math.floor(sumPrices / price.length / 100) * 100;
-
-      return average;
-    });
-
-    return averages;
-  };
-
-  const calcPriceRange = async averages => {
-    const min = Math.min(...averages);
-    let max = Math.max(...averages);
-    if (max > MAX_PRICE_RANGE) max = MAX_PRICE_RANGE;
-
-    return { min, max, averages };
-  };
 
   const setPriceRange = async () => {
     const urlForPeriodData = `/reservation?checkin=${reservationInfo.period.checkin}&checkout=${reservationInfo.period.checkout}`;
