@@ -1,5 +1,5 @@
-import React, { useState, createContext, useMemo, SetStateAction, useEffect } from 'react';
-import { MAX_PRICE_RANGE } from '@constants/reservation';
+import React, { useState, createContext, useMemo, useEffect } from 'react';
+import { MAX_PRICE_RANGE } from '@/constants';
 import { fetchData, pipeAwait } from '@utils/util';
 
 interface PriceData {
@@ -34,6 +34,7 @@ interface ReservationInfo {
     min: number;
     max: number;
     averages: number[];
+    range: { min: number; max: number };
   };
   persons: {
     adult: number;
@@ -44,7 +45,7 @@ interface ReservationInfo {
 
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
-  setReservationInfo: React.Dispatch<React.SetStateAction<PriceData>>;
+  setReservationInfo: React.Dispatch<React.SetStateAction<ReservationInfo>>;
 }
 
 const initialReservationInfo = {
@@ -55,7 +56,8 @@ const initialReservationInfo = {
   price: {
     min: 0,
     max: 0,
-    averages: []
+    averages: [],
+    range: { min: 0, max: 0 }
   },
   persons: {
     adult: 2,

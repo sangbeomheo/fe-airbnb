@@ -1,8 +1,15 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import { Description } from '@components/Modal/index.style';
-import { COLOR, MAX_PRICE_RANGE } from '@/constants';
+import { COLOR } from '@/constants';
 import Portal from '@components/Modal';
-import { Title, PriceGraph } from '@components/Modal/PriceModal.style';
+import {
+  Title,
+  PriceGraphWrap,
+  PriceGraph,
+  RangeButtonWrap,
+  RangeButtonLeft,
+  RangeButtonRight
+} from '@components/Modal/PriceModal.style';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
 import { addCommasToNumber } from '@utils/util';
 
@@ -12,12 +19,12 @@ const CANVAS_HEIGHT = 200;
 const GAP_BETWEEN_STICK = 1;
 
 function PriceModal() {
-  const { reservationInfo } = useContext(ReservationInfoContext);
+  const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
 
   const calcPricePerStick = () => {
-    const maxPrice =
-      reservationInfo.price.max > MAX_PRICE_RANGE ? MAX_PRICE_RANGE : reservationInfo.price.max;
-    const pricePerStick = Math.floor((maxPrice - reservationInfo.price.min) / STICK_LENGTH);
+    const pricePerStick = Math.floor(
+      (reservationInfo.price.range.max - reservationInfo.price.range.min) / STICK_LENGTH
+    );
 
     return pricePerStick;
   };
@@ -26,7 +33,7 @@ function PriceModal() {
     const pricePerStick = calcPricePerStick();
     const accommodationLengthPerStick = new Array(STICK_LENGTH).fill(0);
     reservationInfo.price.averages.forEach(average => {
-      let stickIndex = Math.floor((average - reservationInfo.price.min) / pricePerStick);
+      let stickIndex = Math.floor((average - reservationInfo.price.range.min) / pricePerStick);
       if (stickIndex >= STICK_LENGTH) stickIndex = STICK_LENGTH - 1;
       accommodationLengthPerStick[stickIndex] += 1;
     });
@@ -64,6 +71,10 @@ function PriceModal() {
     }, initialValue);
   };
 
+  useEffect(() => {
+    drawStickChartAboutPrice();
+  }, []);
+
   const calcAveragePrice = () => {
     const avergePrice = Math.round(
       reservationInfo.price.averages.reduce((acc, cur) => acc + cur, 0) /
@@ -73,12 +84,12 @@ function PriceModal() {
     return addCommasToNumber(avergePrice) || 0;
   };
 
-  useEffect(drawStickChartAboutPrice, []);
-
-  const changeMaxPriceWithinRange = (maxPrice: number) => {
-    if (reservationInfo.price.max > MAX_PRICE_RANGE)
-      return `${addCommasToNumber(MAX_PRICE_RANGE)}+`;
-    return addCommasToNumber(maxPrice);
+  const changePirceRange = (target: EventTarget, rangeName: string) => {
+    const newReservationPrice: Record<string, number | number[] | { min: number; max: number }> = {
+      ...reservationInfo.price
+    };
+    newReservationPrice[rangeName] = Number(target.value);
+    setReservationInfo({ ...reservationInfo, price: newReservationPrice });
   };
 
   return (
@@ -86,12 +97,37 @@ function PriceModal() {
       <Title>가격 범위</Title>
       <div>
         ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; - &nbsp;₩&nbsp;
-        <span>{changeMaxPriceWithinRange(reservationInfo.price.max)} </span>
+        <span>
+          {reservationInfo.price.max +
+            (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
+        </span>
       </div>
       <Description>
         평균 1박 요금은 <span>₩ {calcAveragePrice()}</span> 입니다.
       </Description>
-      <PriceGraph ref={canvasRef} />
+      <PriceGraphWrap>
+        <PriceGraph ref={canvasRef} />
+        <RangeButtonWrap>
+          <RangeButtonLeft
+            type="range"
+            min={reservationInfo.price.range.min}
+            max={reservationInfo.price.range.max / 2}
+            step="100"
+            value={reservationInfo.price.min}
+            width={50}
+            onChange={({ target }) => changePirceRange(target, 'min')}
+          />
+          <RangeButtonRight
+            type="range"
+            min={reservationInfo.price.range.max / 2}
+            max={reservationInfo.price.range.max}
+            step="100"
+            value={reservationInfo.price.max}
+            width={50}
+            onChange={({ target }) => changePirceRange(target, 'max')}
+          />
+        </RangeButtonWrap>
+      </PriceGraphWrap>
     </Portal>
   );
 }
