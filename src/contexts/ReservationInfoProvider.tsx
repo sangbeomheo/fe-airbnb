@@ -1,6 +1,7 @@
 import React, { useState, createContext, useMemo, SetStateAction, useEffect } from 'react';
-import { MAX_PRICE_RANGE } from '@/constants';
+import { MAX_PRICE_RANGE } from '@constants/reservation';
 import { ReservationInfo } from '@constants/type';
+import { fetchData, pipeAwait } from '@utils/util';
 
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
@@ -37,17 +38,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
     [reservationInfo]
   );
 
-  const fetchDataForPeriod = async () => {
-    const response = await fetch(
-      `/reservation?checkin=${reservationInfo.period.checkin}&checkout=${reservationInfo.period.checkout}`
-    );
-    const dataForPeriod = await response.json();
-
-    return dataForPeriod;
-  };
-
-  const calcAveragePrices = async () => {
-    const dataForPeriod = await fetchDataForPeriod();
+  const calcAveragePrices = async dataForPeriod => {
     const averages = dataForPeriod.map(({ price }: { price: number[] }) => {
       const sumPrices = price.reduce((acc, cur) => acc + cur);
       const average = Math.floor(sumPrices / price.length / 100) * 100;
@@ -58,8 +49,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
     return averages;
   };
 
-  const calcPriceRange = async () => {
-    const averages = await calcAveragePrices();
+  const calcPriceRange = async averages => {
     const min = Math.min(...averages);
     let max = Math.max(...averages);
     if (max > MAX_PRICE_RANGE) max = MAX_PRICE_RANGE;
@@ -68,7 +58,14 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   };
 
   const setPriceRange = async () => {
-    const priceRange = await calcPriceRange();
+    const urlForPeriodData = `/reservation?checkin=${reservationInfo.period.checkin}&checkout=${reservationInfo.period.checkout}`;
+
+    const priceRange = await pipeAwait(
+      fetchData,
+      calcAveragePrices,
+      calcPriceRange
+    )(urlForPeriodData);
+
     setReservationInfo({ ...reservationInfo, price: priceRange });
   };
 
