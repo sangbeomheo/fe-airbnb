@@ -36,13 +36,13 @@ const searchInputButtonsInfo = [
   }
 ];
 
-const getReservationPriceText = price => {
+const getReservationPriceText = (price: { min: number; max: number }) => {
   const { min, max } = price;
   if (!min && !max) return '';
   return `${addCommasToNumber(min)}~${addCommasToNumber(max)}원`;
 };
 
-const getReservationPersonnelText = persons => {
+const getReservationPersonnelText = (persons: { adult: number; child: number; infant: number }) => {
   const { adult, child, infant } = persons;
   if (!adult && !child && !infant) return '';
 
