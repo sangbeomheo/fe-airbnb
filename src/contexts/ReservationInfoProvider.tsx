@@ -1,5 +1,4 @@
 import React, { useState, createContext, useMemo, SetStateAction, useEffect } from 'react';
-import { MAX_PRICE_RANGE } from '@/constants';
 import { ReservationInfo } from '@constants/type';
 
 interface UseReservationInfo {
@@ -30,9 +29,9 @@ const ReservationInfoContext = createContext<UseReservationInfo>({
 });
 
 function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
-  const [reservationInfo, setReservationInfo] = useState(initialReservationInfo);
+  const [reservationInfo, setReservationInfo] = useState<ReservationInfo>(initialReservationInfo);
 
-  const reservationState = useMemo(
+  const useReservationInfo = useMemo(
     () => ({ reservationInfo, setReservationInfo }),
     [reservationInfo]
   );
@@ -61,8 +60,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   const calcPriceRange = async () => {
     const averages = await calcAveragePrices();
     const min = Math.min(...averages);
-    let max = Math.max(...averages);
-    if (max > MAX_PRICE_RANGE) max = MAX_PRICE_RANGE;
+    const max = Math.max(...averages);
 
     return { min, max, averages };
   };
@@ -77,7 +75,7 @@ function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   }, [reservationInfo.period]);
 
   return (
-    <ReservationInfoContext.Provider value={reservationState}>
+    <ReservationInfoContext.Provider value={useReservationInfo}>
       {children}
     </ReservationInfoContext.Provider>
   );

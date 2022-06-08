@@ -6,7 +6,8 @@ const Title = styled(Label)`
 `;
 
 const PriceGraph = styled.canvas`
-  margin-top: 46px;
+  display: block;
+  margin: 46px auto 0;
 `;
 
 export { Title, PriceGraph };
