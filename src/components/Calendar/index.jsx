@@ -15,13 +15,26 @@ function Calendar({ date }) {
   const { checkin, checkout } = reservationInfo.period;
 
   const getDateUnitState = date => {
-    if (date < TODAY) return 'disabled';
+    // if (date < TODAY) return 'disabled';
+    // if (stringFullDate > checkin && stringFullDate < checkout) return 'included';
+    const stringFullDate = getStringDate(date, '-');
 
-    const stringFullDate = (date, getStringDate(date, '-'));
-    if (stringFullDate === checkin) return 'checkin';
-    if (stringFullDate === checkout) return 'checkout';
-    if (stringFullDate > checkin && stringFullDate < checkout) return 'included';
-    return 'basic';
+    switch (true) {
+      case date < TODAY:
+        return 'disabled';
+
+      case stringFullDate === checkin:
+        return 'checkin';
+
+      case stringFullDate === checkout:
+        return 'checkout';
+
+      case stringFullDate > checkin && stringFullDate < checkout:
+        return 'included';
+
+      default:
+        return 'basic';
+    }
   };
 
   const handleDateUnitClick = date => {
