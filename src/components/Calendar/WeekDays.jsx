@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { FONT, COLOR } from '@/constants';
+import { WeekdayTd } from '@/components/Calendar/WeekDays.style';
 
 const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -15,14 +14,5 @@ function WeekDays() {
     </thead>
   );
 }
-
-const WeekdayTd = styled.td`
-  width: 48px;
-  height: 24px;
-  text-align: center;
-  line-height: 24px;
-  color: ${COLOR.GREY[300]};
-  font-size: ${FONT.SIZE.X_SMALL};
-`;
 
 export default WeekDays;
