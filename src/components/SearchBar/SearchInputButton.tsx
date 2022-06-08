@@ -8,7 +8,6 @@ import {
 } from '@components/SearchBar/SearchInputButton.style';
 import { SelectedModalNameContext } from '@contexts/SelectedModalNameProvider';
 import { ReservationInfoContext } from '@contexts/ReservationInfoProvider';
-import { getStringDate } from '@/utils/util';
 
 interface SearchInputButtonProps {
   name: string;
