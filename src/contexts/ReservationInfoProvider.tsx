@@ -1,6 +1,5 @@
 import React, { useState, createContext, useMemo, SetStateAction, useEffect } from 'react';
 import { MAX_PRICE_RANGE } from '@constants/reservation';
-import { ReservationInfo } from '@constants/type';
 import { fetchData, pipeAwait } from '@utils/util';
 
 const calcAveragePrices = async dataForPeriod => {
@@ -21,6 +20,23 @@ const calcPriceRange = async averages => {
 
   return { min, max, averages };
 };
+
+interface ReservationInfo {
+  period: {
+    checkin: string | null;
+    checkout: string | null;
+  };
+  price: {
+    min: number;
+    max: number;
+    averages: number[];
+  };
+  persons: {
+    adult: number;
+    child: number;
+    infant: number;
+  };
+}
 
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
