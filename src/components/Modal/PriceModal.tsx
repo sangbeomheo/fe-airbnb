@@ -56,12 +56,16 @@ function PriceModal() {
     const canvas = canvasRef.current;
     if (!canvas?.getContext) throw new Error('canvas를 지원하지 않습니다.');
 
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
+    const devicePixelRatio = window.devicePixelRatio ?? 1;
+    canvas.style.width = `${CANVAS_WIDTH}px`;
+    canvas.style.height = `${CANVAS_HEIGHT}px`;
+    canvas.width = CANVAS_WIDTH * devicePixelRatio;
+    canvas.height = CANVAS_HEIGHT * devicePixelRatio;
 
     const context = canvas.getContext('2d');
     if (!context) return;
-    context.strokeStyle = COLOR.BLACK;
+    context.scale(devicePixelRatio, devicePixelRatio);
+    context.fillStyle = COLOR.BLACK;
 
     const initialValue = { x: 0, width: CANVAS_WIDTH / STICK_LENGTH - GAP_BETWEEN_STICK };
     const heightOfSticks = calcHeightOfSticks();
@@ -98,7 +102,7 @@ function PriceModal() {
       <div>
         ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; - &nbsp;₩&nbsp;
         <span>
-          {reservationInfo.price.max +
+          {addCommasToNumber(reservationInfo.price.max) +
             (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
         </span>
       </div>
