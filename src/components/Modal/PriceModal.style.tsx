@@ -20,17 +20,23 @@ const PriceGraph = styled.canvas`
 
 const RangeButtonWrap = styled.div`
   position: absolute;
-  bottom: -12px;
+  bottom: 12px;
   left: 0;
   width: 100%;
   display: flex;
 `;
 
 const RangeButton = styled.input`
-  width: ${({ width }: { width: number }) => `${width}%`};
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
   appearance: none;
   background: transparent;
+  pointer-events: none;
   &::-webkit-slider-thumb {
+    pointer-events: all;
     appearance: none;
     width: 24px;
     height: 24px;
