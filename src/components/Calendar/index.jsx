@@ -9,7 +9,7 @@ import DateUnit from '@components/Calendar/DateUnit';
 import { TableContainer, BlankUnit } from '@components/Calendar/index.style';
 
 function Calendar({ date }) {
-  const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
+  const { reservationInfo, setReservationInfoByPeriod } = useContext(ReservationInfoContext);
   const { selectedModalName, setSelectedModalName } = useContext(SelectedModalNameContext);
 
   const { checkin, checkout } = reservationInfo.period;
@@ -38,64 +38,37 @@ function Calendar({ date }) {
   const handleDateUnitClick = date => {
     const clickedDate = getStringDate(date, '-');
 
+    let newCheckin;
+    let newCheckout;
+    let newModalName;
+
     switch (selectedModalName) {
       case 'checkin':
         if (!checkin && clickedDate < checkout) {
-          setReservationInfo({
-            ...reservationInfo,
-            period: {
-              checkin: getStringDate(date, '-'),
-              checkout
-            }
-          });
-          setSelectedModalName('checkin');
+          [newCheckin, newCheckout, newModalName] = [clickedDate, checkout, 'checkin'];
           break;
         }
-        setReservationInfo({
-          ...reservationInfo,
-          period: {
-            checkin: getStringDate(date, '-'),
-            checkout: null
-          }
-        });
-        setSelectedModalName('checkout');
+        [newCheckin, newCheckout, newModalName] = [clickedDate, null, 'checkout'];
         break;
 
       case 'checkout':
         if (!checkin || clickedDate === checkin) {
-          setReservationInfo({
-            ...reservationInfo,
-            period: {
-              checkin: null,
-              checkout: getStringDate(date, '-')
-            }
-          });
-          setSelectedModalName('checkin');
+          [newCheckin, newCheckout, newModalName] = [null, clickedDate, 'checkin'];
           break;
         }
         if (clickedDate < checkin) {
-          setReservationInfo({
-            ...reservationInfo,
-            period: {
-              checkin: getStringDate(date, '-'),
-              checkout: null
-            }
-          });
-          setSelectedModalName('checkout');
+          [newCheckin, newCheckout, newModalName] = [clickedDate, null, 'checkout'];
           break;
         }
-        setReservationInfo({
-          ...reservationInfo,
-          period: {
-            checkin,
-            checkout: getStringDate(date, '-')
-          }
-        });
-        setSelectedModalName('checkin');
+        [newCheckin, newCheckout, newModalName] = [checkin, clickedDate, 'checkin'];
         break;
 
       default:
+        [newCheckin, newCheckout, newModalName] = [checkin, checkout, null];
     }
+
+    setReservationInfoByPeriod(newCheckin, newCheckout);
+    setSelectedModalName(newModalName);
   };
 
   const getCalendarRows = date => {
@@ -110,8 +83,7 @@ function Calendar({ date }) {
       ...Array(startBlankCount).fill(0),
       ...Array(lastDate)
         .fill()
-        .map((_, i) => new Date(year, month, i + 1)),
-      ...Array(endBlankCount).fill(0)
+        .map((_, i) => new Date(year, month, i + 1))
     ];
 
     const rows = Array(rowCount)
@@ -121,15 +93,13 @@ function Calendar({ date }) {
     return rows;
   };
 
-  const rows = getCalendarRows(date);
-
   return (
     <TableContainer>
       <YearMonth date={date} />
       <WeekDays />
 
       <tbody>
-        {rows.map((row, i) => (
+        {getCalendarRows(date).map((row, i) => (
           <tr key={i}>
             {row.map((date, index) => {
               if (date === 0) return <BlankUnit key={index} />;
@@ -140,7 +110,7 @@ function Calendar({ date }) {
                 <DateUnit
                   date={date.getDate()}
                   state={unitState}
-                  handleClick={() => handleDateUnitClick(date, unitState)}
+                  handleClick={() => handleDateUnitClick(date)}
                   key={index}
                 />
               );

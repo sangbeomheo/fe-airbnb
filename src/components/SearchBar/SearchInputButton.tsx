@@ -25,37 +25,35 @@ function SearchInputButton({
   searchName
 }: SearchInputButtonProps) {
   const { selectedModalName, showSearchModal } = useContext(SelectedModalNameContext);
-  const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
+  const { reservationInfo, setReservationInfo, setReservationInfoByPeriod } =
+    useContext(ReservationInfoContext);
   const [focus, setFocus] = useState(false);
 
   const resetValue = (searchName: string) => {
+    const { checkin, checkout } = reservationInfo.period;
+
     switch (searchName) {
       case 'checkin':
-        setReservationInfo({
-          ...reservationInfo,
-          period: {
-            checkin: null,
-            checkout: reservationInfo.period.checkout
-          }
-        });
+        setReservationInfoByPeriod(null, checkout);
         break;
 
       case 'checkout':
-        setReservationInfo({
-          ...reservationInfo,
-          period: {
-            checkin: reservationInfo.period.checkin,
-            checkout: null
-          }
-        });
+        setReservationInfoByPeriod(checkin, null);
         break;
 
       case 'price':
-        console.log('price');
+        setReservationInfoByPeriod(checkin, checkout);
         break;
 
       case 'personal':
-        console.log('personal');
+        setReservationInfo({
+          ...reservationInfo,
+          persons: {
+            adult: 2,
+            child: 0,
+            infant: 0
+          }
+        });
         break;
 
       default:
