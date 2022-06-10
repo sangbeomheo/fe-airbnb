@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Description } from '@components/Modal/index.style';
 import { COLOR } from '@/constants';
 import Portal from '@components/Modal';
@@ -27,7 +27,6 @@ interface SizeOfSticks {
 
 function PriceModal() {
   const { reservationInfo, setReservationInfo } = useContext(ReservationInfoContext);
-  const [RangeButtonWidth, setRangeButtonWidth] = useState({ left: 50, right: 50 });
 
   const calcPricePerStick = () => {
     const pricePerStick = Math.floor(
@@ -174,19 +173,17 @@ function PriceModal() {
           <RangeButtonLeft
             type="range"
             min={reservationInfo.price.range.min}
-            max={reservationInfo.price.range.max / 2}
+            max={reservationInfo.price.range.max}
             step="100"
             value={reservationInfo.price.min}
-            width={RangeButtonWidth.right}
             onChange={({ target }) => changePirceRange(target.value, 'min')}
           />
           <RangeButtonRight
             type="range"
-            min={reservationInfo.price.range.max / 2}
+            min={reservationInfo.price.range.min}
             max={reservationInfo.price.range.max}
             step="100"
             value={reservationInfo.price.max}
-            width={RangeButtonWidth.left}
             onChange={({ target }) => changePirceRange(target.value, 'max')}
           />
         </RangeButtonWrap>
