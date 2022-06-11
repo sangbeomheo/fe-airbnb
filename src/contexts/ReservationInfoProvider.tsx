@@ -1,10 +1,13 @@
-import React, { useState, createContext, useMemo, SetStateAction, useEffect } from 'react';
-import { MAX_PRICE_RANGE } from '@constants/reservation';
-import { ReservationInfo } from '@constants/type';
+import React, { useState, createContext, useMemo } from 'react';
+import { MAX_PRICE_RANGE } from '@/constants';
 import { fetchData, pipeAwait } from '@utils/util';
 
-const calcAveragePrices = async dataForPeriod => {
-  const averages = dataForPeriod.map(({ price }: { price: number[] }) => {
+interface PriceData {
+  price: number[];
+}
+
+const calcAveragePrices = async (dataForPeriod: PriceData[]) => {
+  const averages = dataForPeriod.map(({ price }: PriceData) => {
     const sumPrices = price.reduce((acc, cur) => acc + cur);
     const average = Math.floor(sumPrices / price.length / 100) * 100;
 
@@ -14,17 +17,47 @@ const calcAveragePrices = async dataForPeriod => {
   return averages;
 };
 
-const calcPriceRange = async averages => {
+const calcPriceRange = async (averages: number[]) => {
   const min = Math.min(...averages);
-  let max = Math.max(...averages);
-  if (max > MAX_PRICE_RANGE) max = MAX_PRICE_RANGE;
+  const max = Math.max(...averages);
+  const range = { min, max: max > MAX_PRICE_RANGE ? MAX_PRICE_RANGE : max };
 
-  return { min, max, averages };
+  return { min, max, averages, range };
 };
+
+const getPriceRange = async (checkin: string | null, checkout: string | null) => {
+  const urlForPeriodData = `/reservation?checkin=${checkin}&checkout=${checkout}`;
+  const priceRange = await pipeAwait(
+    fetchData,
+    calcAveragePrices,
+    calcPriceRange
+  )(urlForPeriodData);
+
+  return priceRange;
+};
+
+interface ReservationInfo {
+  period: {
+    checkin: string | null;
+    checkout: string | null;
+  };
+  price: {
+    min: number;
+    max: number;
+    averages: number[];
+    range: { min: number; max: number };
+  };
+  persons: {
+    adult: number;
+    child: number;
+    infant: number;
+  };
+}
 
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
-  setReservationInfo: SetStateAction<object>;
+  setReservationInfo: React.Dispatch<React.SetStateAction<ReservationInfo>>;
+  setReservationInfoByPeriod: (checkin: string | null, checkout: string | null) => Promise<void>;
 }
 
 const initialReservationInfo = {
@@ -35,7 +68,8 @@ const initialReservationInfo = {
   price: {
     min: 0,
     max: 0,
-    averages: []
+    averages: [],
+    range: { min: 0, max: 0 }
   },
   persons: {
     adult: 2,
@@ -46,32 +80,32 @@ const initialReservationInfo = {
 
 const ReservationInfoContext = createContext<UseReservationInfo>({
   reservationInfo: initialReservationInfo,
-  setReservationInfo: () => null
+  setReservationInfo: () => null,
+  setReservationInfoByPeriod: async () => {
+    await new Promise(resolve => {
+      resolve(undefined);
+    });
+  }
 });
 
 function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
   const [reservationInfo, setReservationInfo] = useState<ReservationInfo>(initialReservationInfo);
 
-  const useReservationInfo = useMemo(
-    () => ({ reservationInfo, setReservationInfo }),
-    [reservationInfo]
-  );
+  const setReservationInfoByPeriod = async (checkin: string | null, checkout: string | null) => {
+    const priceRange =
+      checkin && checkout ? await getPriceRange(checkin, checkout) : initialReservationInfo.price;
 
-  const setPriceRange = async () => {
-    const urlForPeriodData = `/reservation?checkin=${reservationInfo.period.checkin}&checkout=${reservationInfo.period.checkout}`;
-
-    const priceRange = await pipeAwait(
-      fetchData,
-      calcAveragePrices,
-      calcPriceRange
-    )(urlForPeriodData);
-
-    setReservationInfo({ ...reservationInfo, price: priceRange });
+    setReservationInfo({
+      ...reservationInfo,
+      period: { checkin, checkout },
+      price: priceRange
+    });
   };
 
-  useEffect(() => {
-    if (reservationInfo.period.checkin && reservationInfo.period.checkout) setPriceRange();
-  }, [reservationInfo.period]);
+  const useReservationInfo = useMemo(
+    () => ({ reservationInfo, setReservationInfo, setReservationInfoByPeriod }),
+    [reservationInfo]
+  );
 
   return (
     <ReservationInfoContext.Provider value={useReservationInfo}>

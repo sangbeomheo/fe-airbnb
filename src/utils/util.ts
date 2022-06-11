@@ -18,7 +18,7 @@ const fetchData = async (URL: string) => {
 
 const pipeAwait =
   (...functions) =>
-  param => {
+  (param: string | Promise<number[]>) => {
     return functions.reduce(async (result, next) => next(await result), param);
   };
 

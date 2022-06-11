@@ -1,10 +1,10 @@
-import React, { useState, createContext, useMemo, SetStateAction } from 'react';
+import React, { useState, createContext, useMemo } from 'react';
 
 type SelectedModalName = string | null;
 
 interface UseSelectedModalName {
   selectedModalName: SelectedModalName;
-  setSelectedModalName: SetStateAction<object>;
+  setSelectedModalName: React.Dispatch<React.SetStateAction<SelectedModalName>>;
   showSearchModal: (searchName: string) => void;
   hideSearchModal: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
