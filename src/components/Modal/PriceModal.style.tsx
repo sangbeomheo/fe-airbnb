@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Label } from '@components/Modal/index.style';
+import { FONT } from '@/constants';
 
 const Title = styled(Label)`
-  margin: -12px 0 16px;
+  margin: -12px 0 10px;
 `;
 
 const PriceGraphWrap = styled.div`
@@ -11,6 +12,13 @@ const PriceGraphWrap = styled.div`
   left: 0;
   width: fit-content;
   margin: 46px auto 0;
+`;
+
+const PriceRangeText = styled.div`
+  margin-top: 46px;
+  font-size: ${FONT.SIZE.LARGE};
+  text-align: center;
+  letter-spacing: 0;
 `;
 
 const PriceGraph = styled.canvas`
@@ -58,4 +66,12 @@ const RangeButtonRight = styled(RangeButton)`
   }
 `;
 
-export { Title, PriceGraphWrap, PriceGraph, RangeButtonWrap, RangeButtonLeft, RangeButtonRight };
+export {
+  Title,
+  PriceRangeText,
+  PriceGraphWrap,
+  PriceGraph,
+  RangeButtonWrap,
+  RangeButtonLeft,
+  RangeButtonRight
+};

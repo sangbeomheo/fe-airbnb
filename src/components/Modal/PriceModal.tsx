@@ -4,6 +4,7 @@ import { COLOR } from '@/constants';
 import Portal from '@components/Modal';
 import {
   Title,
+  PriceRangeText,
   PriceGraphWrap,
   PriceGraph,
   RangeButtonWrap,
@@ -157,13 +158,6 @@ function PriceModal() {
   return (
     <Portal>
       <Title>가격 범위</Title>
-      <div>
-        ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; - &nbsp;₩&nbsp;
-        <span>
-          {addCommasToNumber(reservationInfo.price.max) +
-            (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
-        </span>
-      </div>
       <Description>
         평균 1박 요금은 <span>₩ {calcAveragePrice()}</span> 입니다.
       </Description>
@@ -188,6 +182,13 @@ function PriceModal() {
           />
         </RangeButtonWrap>
       </PriceGraphWrap>
+      <PriceRangeText>
+        ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; - &nbsp;₩&nbsp;
+        <span>
+          {addCommasToNumber(reservationInfo.price.max) +
+            (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
+        </span>
+      </PriceRangeText>
     </Portal>
   );
 }
