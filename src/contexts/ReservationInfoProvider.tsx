@@ -57,7 +57,7 @@ interface ReservationInfo {
 interface UseReservationInfo {
   reservationInfo: ReservationInfo;
   setReservationInfo: React.Dispatch<React.SetStateAction<ReservationInfo>>;
-  setReservationInfoByPeriod: (checkin: string | null, checkout: string | null) => null;
+  setReservationInfoByPeriod: (checkin: string | null, checkout: string | null) => Promise<void>;
 }
 
 const initialReservationInfo = {
@@ -81,7 +81,11 @@ const initialReservationInfo = {
 const ReservationInfoContext = createContext<UseReservationInfo>({
   reservationInfo: initialReservationInfo,
   setReservationInfo: () => null,
-  setReservationInfoByPeriod: () => null
+  setReservationInfoByPeriod: async () => {
+    await new Promise(resolve => {
+      resolve(undefined);
+    });
+  }
 });
 
 function ReservationInfoProvider({ children }: { children: React.ReactNode }) {
